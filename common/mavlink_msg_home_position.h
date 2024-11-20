@@ -11,11 +11,7 @@ typedef struct __mavlink_home_position_t {
  float x; /*< [m] Local X position of this position in the local coordinate frame (NED)*/
  float y; /*< [m] Local Y position of this position in the local coordinate frame (NED)*/
  float z; /*< [m] Local Z position of this position in the local coordinate frame (NED: positive "down")*/
- float q[4]; /*<  
-        Quaternion indicating world-to-surface-normal and heading transformation of the takeoff position.
-        Used to indicate the heading and slope of the ground.
-        All fields should be set to NaN if an accurate quaternion for both heading and surface slope cannot be supplied.
-      */
+ float q[4]; /*<  World to surface normal and heading transformation of the takeoff position. Used to indicate the heading and slope of the ground*/
  float approach_x; /*< [m] Local X position of the end of the approach vector. Multicopters should set this position based on their takeoff path. Grass-landing fixed wing aircraft should set it the same way as multicopters. Runway-landing fixed wing aircraft should set it to the opposite direction of the takeoff, assuming the takeoff happened from the threshold / touchdown zone.*/
  float approach_y; /*< [m] Local Y position of the end of the approach vector. Multicopters should set this position based on their takeoff path. Grass-landing fixed wing aircraft should set it the same way as multicopters. Runway-landing fixed wing aircraft should set it to the opposite direction of the takeoff, assuming the takeoff happened from the threshold / touchdown zone.*/
  float approach_z; /*< [m] Local Z position of the end of the approach vector. Multicopters should set this position based on their takeoff path. Grass-landing fixed wing aircraft should set it the same way as multicopters. Runway-landing fixed wing aircraft should set it to the opposite direction of the takeoff, assuming the takeoff happened from the threshold / touchdown zone.*/
@@ -81,11 +77,7 @@ typedef struct __mavlink_home_position_t {
  * @param x [m] Local X position of this position in the local coordinate frame (NED)
  * @param y [m] Local Y position of this position in the local coordinate frame (NED)
  * @param z [m] Local Z position of this position in the local coordinate frame (NED: positive "down")
- * @param q  
-        Quaternion indicating world-to-surface-normal and heading transformation of the takeoff position.
-        Used to indicate the heading and slope of the ground.
-        All fields should be set to NaN if an accurate quaternion for both heading and surface slope cannot be supplied.
-      
+ * @param q  World to surface normal and heading transformation of the takeoff position. Used to indicate the heading and slope of the ground
  * @param approach_x [m] Local X position of the end of the approach vector. Multicopters should set this position based on their takeoff path. Grass-landing fixed wing aircraft should set it the same way as multicopters. Runway-landing fixed wing aircraft should set it to the opposite direction of the takeoff, assuming the takeoff happened from the threshold / touchdown zone.
  * @param approach_y [m] Local Y position of the end of the approach vector. Multicopters should set this position based on their takeoff path. Grass-landing fixed wing aircraft should set it the same way as multicopters. Runway-landing fixed wing aircraft should set it to the opposite direction of the takeoff, assuming the takeoff happened from the threshold / touchdown zone.
  * @param approach_z [m] Local Z position of the end of the approach vector. Multicopters should set this position based on their takeoff path. Grass-landing fixed wing aircraft should set it the same way as multicopters. Runway-landing fixed wing aircraft should set it to the opposite direction of the takeoff, assuming the takeoff happened from the threshold / touchdown zone.
@@ -141,11 +133,7 @@ static inline uint16_t mavlink_msg_home_position_pack(uint8_t system_id, uint8_t
  * @param x [m] Local X position of this position in the local coordinate frame (NED)
  * @param y [m] Local Y position of this position in the local coordinate frame (NED)
  * @param z [m] Local Z position of this position in the local coordinate frame (NED: positive "down")
- * @param q  
-        Quaternion indicating world-to-surface-normal and heading transformation of the takeoff position.
-        Used to indicate the heading and slope of the ground.
-        All fields should be set to NaN if an accurate quaternion for both heading and surface slope cannot be supplied.
-      
+ * @param q  World to surface normal and heading transformation of the takeoff position. Used to indicate the heading and slope of the ground
  * @param approach_x [m] Local X position of the end of the approach vector. Multicopters should set this position based on their takeoff path. Grass-landing fixed wing aircraft should set it the same way as multicopters. Runway-landing fixed wing aircraft should set it to the opposite direction of the takeoff, assuming the takeoff happened from the threshold / touchdown zone.
  * @param approach_y [m] Local Y position of the end of the approach vector. Multicopters should set this position based on their takeoff path. Grass-landing fixed wing aircraft should set it the same way as multicopters. Runway-landing fixed wing aircraft should set it to the opposite direction of the takeoff, assuming the takeoff happened from the threshold / touchdown zone.
  * @param approach_z [m] Local Z position of the end of the approach vector. Multicopters should set this position based on their takeoff path. Grass-landing fixed wing aircraft should set it the same way as multicopters. Runway-landing fixed wing aircraft should set it to the opposite direction of the takeoff, assuming the takeoff happened from the threshold / touchdown zone.
@@ -227,11 +215,7 @@ static inline uint16_t mavlink_msg_home_position_encode_chan(uint8_t system_id, 
  * @param x [m] Local X position of this position in the local coordinate frame (NED)
  * @param y [m] Local Y position of this position in the local coordinate frame (NED)
  * @param z [m] Local Z position of this position in the local coordinate frame (NED: positive "down")
- * @param q  
-        Quaternion indicating world-to-surface-normal and heading transformation of the takeoff position.
-        Used to indicate the heading and slope of the ground.
-        All fields should be set to NaN if an accurate quaternion for both heading and surface slope cannot be supplied.
-      
+ * @param q  World to surface normal and heading transformation of the takeoff position. Used to indicate the heading and slope of the ground
  * @param approach_x [m] Local X position of the end of the approach vector. Multicopters should set this position based on their takeoff path. Grass-landing fixed wing aircraft should set it the same way as multicopters. Runway-landing fixed wing aircraft should set it to the opposite direction of the takeoff, assuming the takeoff happened from the threshold / touchdown zone.
  * @param approach_y [m] Local Y position of the end of the approach vector. Multicopters should set this position based on their takeoff path. Grass-landing fixed wing aircraft should set it the same way as multicopters. Runway-landing fixed wing aircraft should set it to the opposite direction of the takeoff, assuming the takeoff happened from the threshold / touchdown zone.
  * @param approach_z [m] Local Z position of the end of the approach vector. Multicopters should set this position based on their takeoff path. Grass-landing fixed wing aircraft should set it the same way as multicopters. Runway-landing fixed wing aircraft should set it to the opposite direction of the takeoff, assuming the takeoff happened from the threshold / touchdown zone.
@@ -396,11 +380,7 @@ static inline float mavlink_msg_home_position_get_z(const mavlink_message_t* msg
 /**
  * @brief Get field q from home_position message
  *
- * @return  
-        Quaternion indicating world-to-surface-normal and heading transformation of the takeoff position.
-        Used to indicate the heading and slope of the ground.
-        All fields should be set to NaN if an accurate quaternion for both heading and surface slope cannot be supplied.
-      
+ * @return  World to surface normal and heading transformation of the takeoff position. Used to indicate the heading and slope of the ground
  */
 static inline uint16_t mavlink_msg_home_position_get_q(const mavlink_message_t* msg, float *q)
 {
