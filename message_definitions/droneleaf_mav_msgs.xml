@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<mavlink>
+  <include>common.xml</include>
+  <version>1</version>
+  <enums>
+    <enum name="LEAF_MODE">
+      <entry value="0" name="LEAF_MODE_MANUAL">
+        <description>Manual mode</description>
+      </entry>
+      <entry value="1" name="LEAF_MODE_RC_POSITION">
+        <description>Remote control position mode</description>
+      </entry>
+      <entry value="2" name="LEAF_MODE_LEARNING">
+        <description>Learning mode</description>
+      </entry>
+    </enum>
+    <enum name="LEAF_STATUS">
+      <entry value="0" name="LEAF_STATUS_READY_TO_LEARN">
+        <description>Leaf is ready to learn</description>
+      </entry>
+      <entry value="1" name="LEAF_STATUS_LEARNING">
+        <description>Leaf is learning</description>
+      </entry>
+      <entry value="2" name="LEAF_STATUS_READY_TO_FLY">
+        <description>Leaf is ready to fly</description>
+      </entry>
+      <entry value="3" name="LEAF_STATUS_TAKING_OFF">
+        <description>Leaf is taking off</description>
+      </entry>
+      <entry value="4" name="LEAF_STATUS_HOVERING">
+        <description>Leaf is hovering</description>
+      </entry>
+      <entry value="5" name="LEAF_STATUS_LANDING">
+        <description>Leaf is landing</description>
+      </entry>
+      <entry value="6" name="LEAF_STATUS_LANDED">
+        <description>Leaf has landed</description>
+      </entry>
+      <entry value="7" name="LEAF_STATUS_EMERGENCY">
+        <description>Leaf is in emergency mode</description>
+      </entry>
+      <entry value="8" name="LEAF_STATUS_ARMED">
+        <description>Leaf is armed</description>
+      </entry>
+      <entry value="9" name="LEAF_STATUS_DISARMED">
+        <description>Leaf is disarmed</description>
+      </entry>
+      <entry value="10" name="LEAF_STATUS_NOT_READY">
+        <description>Leaf is not connected with FC yet</description>
+      </entry>
+    </enum>
+  </enums>
+  <messages>
+    <message id="77000" name="LEAF_MODE">
+      <description>The system mode, as defined by enum LEAF_MODE</description>
+      <field type="uint8_t" name="mode" enum="LEAF_MODE">The new leaf mode.</field>
+    </message>
+    <message id="77001" name="LEAF_SET_MODE">
+      <description>Set the system mode, as defined by enum LEAF_MODE. There is no target component id as the mode is by definition for the overall aircraft, not only for one component.</description>
+      <field type="uint8_t" name="target_system">The system setting the mode</field>
+      <field type="uint8_t" name="mode" enum="LEAF_MODE">The new leaf mode.</field>
+    </message>
+    <message id="77002" name="LEAF_STATUS">
+      <description>The system status, as defined by enum LEAF_STATUS</description>
+      <field type="uint8_t" name="status" enum="LEAF_STATUS">The new leaf status.</field>
+    </message>
+    <message id="77003" name="LEAF_DO_ARM">
+      <description>Arms the leaf</description>
+      <field type="uint8_t" name="target_system">The system needs to be armed</field>
+      <field type="uint8_t" name="arm">1 to arm, 0 to disarm</field>
+    </message>
+    <message id="77005" name="LEAF_DO_TAKEOFF">
+      <description>Commands the leaf to takeoff</description>
+      <field type="uint8_t" name="target_system">The system needs to takeoff</field>
+    </message>
+    <message id="77006" name="LEAF_DO_LAND">
+      <description>Commands the leaf to land</description>
+      <field type="uint8_t" name="target_system">The system needs to land</field>
+    </message>
+    <message id="77007" name="LEAF_DO_REGISTER_POS_OFFSET_FROM_EST_POS">
+      <description>Commands the leaf to go into emergency mode</description>
+      <field type="uint8_t" name="target_system">The system needs to go into emergency mode</field>
+      <field type="uint8_t" name="reg">1 to register, 0 to unregister</field>
+    </message>
+    <message id="77008" name="LEAF_DO_QUEUE_TRAJ_FROM_BUFFER_BY_ID">
+      <description>Commands the leaf to queue a trajectory from the buffer by id</description>
+      <field type="uint8_t" name="target_system">The system needs to queue a trajectory</field>
+      <field type="char[64]" name="traj_id">The id of the trajectory to queue</field>
+    </message>
+    <message id="77009" name="LEAF_DO_SWITCH_MRFT_ROLL">
+      <description>Commands the leaf to switch to MRFT roll controller</description>
+      <field type="uint8_t" name="target_system">The system needs to switch to MRFT roll controller</field>
+      <field type="uint8_t" name="enable">1 to switch on, 0 to switch back off</field>
+    </message>
+    <message id="77010" name="LEAF_DO_SWITCH_MRFT_PITCH">
+      <description>Commands the leaf to switch to MRFT pitch controller</description>
+      <field type="uint8_t" name="target_system">The system needs to switch to MRFT pitch controller</field>
+      <field type="uint8_t" name="enable">1 to switch on, 0 to switch back off</field>
+    </message>
+    <message id="77011" name="LEAF_DO_SWITCH_MRFT_ALT">
+      <description>Commands the leaf to switch to MRFT altitude controller</description>
+      <field type="uint8_t" name="target_system">The system needs to switch to MRFT altitude controller</field>
+      <field type="uint8_t" name="enable">1 to switch on, 0 to switch back off</field>
+    </message>
+    <message id="77012" name="LEAF_DO_SWITCH_MRFT_X">
+      <description>Commands the leaf to switch to MRFT x controller</description>
+      <field type="uint8_t" name="target_system">The system needs to switch to MRFT x controller</field>
+      <field type="uint8_t" name="enable">1 to switch on, 0 to switch back off</field>
+    </message>
+    <message id="77013" name="LEAF_DO_SWITCH_MRFT_Y">
+      <description>Commands the leaf to switch to MRFT y controller</description>
+      <field type="uint8_t" name="target_system">The system needs to switch to MRFT y controller</field>
+      <field type="uint8_t" name="enable">1 to switch on, 0 to switch back off</field>
+    </message>
+  </messages>
+</mavlink>
