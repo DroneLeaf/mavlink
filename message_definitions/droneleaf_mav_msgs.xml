@@ -4,14 +4,23 @@
   <version>1</version>
   <enums>
     <enum name="LEAF_MODE">
-      <entry value="0" name="LEAF_MODE_MANUAL">
-        <description>Manual mode</description>
+      <entry value="0" name="LEAF_MODE_RC_Stabilized">
+        <description>Remote control stabilized mode</description>
       </entry>
       <entry value="1" name="LEAF_MODE_RC_POSITION">
         <description>Remote control position mode</description>
       </entry>
-      <entry value="2" name="LEAF_MODE_LEARNING">
-        <description>Learning mode</description>
+      <entry value="2" name="LEAF_MODE_WAYPOINT_MISSION">
+        <description>Waypoint mission mode</description>
+      </entry>
+      <entry value="3" name="LEAF_MODE_LEARNING_INNER">
+        <description>Learning inner loops mode</description>
+      </entry>
+      <entry value="4" name="LEAF_MODE_LEARNING_OUTER">
+        <description>Learning outer loops mode</description>
+      </entry>
+      <entry value="5" name="LEAF_MODE_LEARNING_FULL">
+        <description>Learning all loops mode</description>
       </entry>
     </enum>
     <enum name="LEAF_STATUS">
@@ -27,8 +36,8 @@
       <entry value="3" name="LEAF_STATUS_TAKING_OFF">
         <description>Leaf is taking off</description>
       </entry>
-      <entry value="4" name="LEAF_STATUS_HOVERING">
-        <description>Leaf is hovering</description>
+      <entry value="4" name="LEAF_STATUS_FLYING">
+        <description>Leaf is flying</description>
       </entry>
       <entry value="5" name="LEAF_STATUS_LANDING">
         <description>Leaf is landing</description>
@@ -36,8 +45,8 @@
       <entry value="6" name="LEAF_STATUS_LANDED">
         <description>Leaf has landed</description>
       </entry>
-      <entry value="7" name="LEAF_STATUS_EMERGENCY">
-        <description>Leaf is in emergency mode</description>
+      <entry value="7" name="LEAF_STATUS_ARMED_IDLE">
+        <description>Leaf is in idle mode</description>
       </entry>
       <entry value="8" name="LEAF_STATUS_ARMED">
         <description>Leaf is armed</description>
@@ -46,7 +55,7 @@
         <description>Leaf is disarmed</description>
       </entry>
       <entry value="10" name="LEAF_STATUS_NOT_READY">
-        <description>Leaf is not connected with FC yet</description>
+        <description>Leaf is not ready to fly yet</description>
       </entry>
     </enum>
   </enums>
