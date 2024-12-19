@@ -10,7 +10,7 @@
     #error Wrong include order: MAVLINK_CUBEPILOT.H MUST NOT BE DIRECTLY USED. Include mavlink.h from the same directory instead or set ALL AND EVERY defines from MAVLINK.H manually accordingly, including the #define MAVLINK_H call.
 #endif
 
-#define MAVLINK_CUBEPILOT_XML_HASH -5773922102149831029
+#define MAVLINK_CUBEPILOT_XML_HASH 4337987851145680256
 
 #ifdef __cplusplus
 extern "C" {

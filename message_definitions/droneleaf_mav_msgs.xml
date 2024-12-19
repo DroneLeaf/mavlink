@@ -181,7 +181,7 @@
     <message id="77016" name="LEAF_SAY_TO_QGC">
       <description>Commands the leaf to say something to QGC</description>
       <field type="uint8_t" name="target_system">The system needs to say something to QGC</field>
-      <field type="char[64]" name="msg">The message to say</field>
+      <field type="char[64]" name="content">The message to say</field>
     </message>
   </messages>
 </mavlink>

@@ -939,7 +939,7 @@ static void mavlink_test_leaf_say_to_qgc(uint8_t system_id, uint8_t component_id
         memset(&packet1, 0, sizeof(packet1));
         packet1.target_system = packet_in.target_system;
         
-        mav_array_memcpy(packet1.msg, packet_in.msg, sizeof(char)*64);
+        mav_array_memcpy(packet1.content, packet_in.content, sizeof(char)*64);
         
 #ifdef MAVLINK_STATUS_FLAG_OUT_MAVLINK1
         if (status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) {
@@ -953,12 +953,12 @@ static void mavlink_test_leaf_say_to_qgc(uint8_t system_id, uint8_t component_id
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_leaf_say_to_qgc_pack(system_id, component_id, &msg , packet1.target_system , packet1.msg );
+    mavlink_msg_leaf_say_to_qgc_pack(system_id, component_id, &msg , packet1.target_system , packet1.content );
     mavlink_msg_leaf_say_to_qgc_decode(&msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_leaf_say_to_qgc_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.target_system , packet1.msg );
+    mavlink_msg_leaf_say_to_qgc_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.target_system , packet1.content );
     mavlink_msg_leaf_say_to_qgc_decode(&msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
@@ -971,7 +971,7 @@ static void mavlink_test_leaf_say_to_qgc(uint8_t system_id, uint8_t component_id
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
         
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_leaf_say_to_qgc_send(MAVLINK_COMM_1 , packet1.target_system , packet1.msg );
+    mavlink_msg_leaf_say_to_qgc_send(MAVLINK_COMM_1 , packet1.target_system , packet1.content );
     mavlink_msg_leaf_say_to_qgc_decode(last_msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
