@@ -70,6 +70,42 @@ static inline uint16_t mavlink_msg_leaf_do_register_pos_offset_from_est_pos_pack
 }
 
 /**
+ * @brief Pack a leaf_do_register_pos_offset_from_est_pos message
+ * @param system_id ID of this system
+ * @param component_id ID of this component (e.g. 200 for IMU)
+ * @param status MAVLink status structure
+ * @param msg The MAVLink message to compress the data into
+ *
+ * @param target_system  The system needs to go into emergency mode
+ * @param reg  1 to register, 0 to unregister
+ * @return length of the message in bytes (excluding serial stream start sign)
+ */
+static inline uint16_t mavlink_msg_leaf_do_register_pos_offset_from_est_pos_pack_status(uint8_t system_id, uint8_t component_id, mavlink_status_t *_status, mavlink_message_t* msg,
+                               uint8_t target_system, uint8_t reg)
+{
+#if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
+    char buf[MAVLINK_MSG_ID_LEAF_DO_REGISTER_POS_OFFSET_FROM_EST_POS_LEN];
+    _mav_put_uint8_t(buf, 0, target_system);
+    _mav_put_uint8_t(buf, 1, reg);
+
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_LEAF_DO_REGISTER_POS_OFFSET_FROM_EST_POS_LEN);
+#else
+    mavlink_leaf_do_register_pos_offset_from_est_pos_t packet;
+    packet.target_system = target_system;
+    packet.reg = reg;
+
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_LEAF_DO_REGISTER_POS_OFFSET_FROM_EST_POS_LEN);
+#endif
+
+    msg->msgid = MAVLINK_MSG_ID_LEAF_DO_REGISTER_POS_OFFSET_FROM_EST_POS;
+#if MAVLINK_CRC_EXTRA
+    return mavlink_finalize_message_buffer(msg, system_id, component_id, _status, MAVLINK_MSG_ID_LEAF_DO_REGISTER_POS_OFFSET_FROM_EST_POS_MIN_LEN, MAVLINK_MSG_ID_LEAF_DO_REGISTER_POS_OFFSET_FROM_EST_POS_LEN, MAVLINK_MSG_ID_LEAF_DO_REGISTER_POS_OFFSET_FROM_EST_POS_CRC);
+#else
+    return mavlink_finalize_message_buffer(msg, system_id, component_id, _status, MAVLINK_MSG_ID_LEAF_DO_REGISTER_POS_OFFSET_FROM_EST_POS_MIN_LEN, MAVLINK_MSG_ID_LEAF_DO_REGISTER_POS_OFFSET_FROM_EST_POS_LEN);
+#endif
+}
+
+/**
  * @brief Pack a leaf_do_register_pos_offset_from_est_pos message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -126,6 +162,20 @@ static inline uint16_t mavlink_msg_leaf_do_register_pos_offset_from_est_pos_enco
 static inline uint16_t mavlink_msg_leaf_do_register_pos_offset_from_est_pos_encode_chan(uint8_t system_id, uint8_t component_id, uint8_t chan, mavlink_message_t* msg, const mavlink_leaf_do_register_pos_offset_from_est_pos_t* leaf_do_register_pos_offset_from_est_pos)
 {
     return mavlink_msg_leaf_do_register_pos_offset_from_est_pos_pack_chan(system_id, component_id, chan, msg, leaf_do_register_pos_offset_from_est_pos->target_system, leaf_do_register_pos_offset_from_est_pos->reg);
+}
+
+/**
+ * @brief Encode a leaf_do_register_pos_offset_from_est_pos struct with provided status structure
+ *
+ * @param system_id ID of this system
+ * @param component_id ID of this component (e.g. 200 for IMU)
+ * @param status MAVLink status structure
+ * @param msg The MAVLink message to compress the data into
+ * @param leaf_do_register_pos_offset_from_est_pos C-struct to read the message contents from
+ */
+static inline uint16_t mavlink_msg_leaf_do_register_pos_offset_from_est_pos_encode_status(uint8_t system_id, uint8_t component_id, mavlink_status_t* _status, mavlink_message_t* msg, const mavlink_leaf_do_register_pos_offset_from_est_pos_t* leaf_do_register_pos_offset_from_est_pos)
+{
+    return mavlink_msg_leaf_do_register_pos_offset_from_est_pos_pack_status(system_id, component_id, _status, msg,  leaf_do_register_pos_offset_from_est_pos->target_system, leaf_do_register_pos_offset_from_est_pos->reg);
 }
 
 /**

@@ -23,8 +23,10 @@ General process:
 '''
 
 from __future__ import print_function
-from future import standard_library
-standard_library.install_aliases()
+import sys
+if sys.version_info <= (3,10):
+    from future import standard_library
+    standard_library.install_aliases()
 from builtins import object
 import os
 import re
@@ -117,7 +119,10 @@ def mavgen(opts, args):
                 break
 
         if mavparse.check_duplicates(xml):
-            sys.exit(1)
+            return False
+        if opts.validate and mavparse.check_missing_enum(xml):
+            return False
+        return True
 
     def update_includes():
         """Update dialects with crcs etc of included files.  Included files
@@ -237,7 +242,8 @@ def mavgen(opts, args):
         xml.append(mavparse.MAVXML(fname, opts.wire_protocol))
 
     # expand includes
-    expand_includes()
+    if not expand_includes():
+        return False
     update_includes()
 
     print("Found %u MAVLink message types in %u XML files" % (
@@ -317,7 +323,7 @@ class Opts(object):
 def mavgen_python_dialect(dialect, wire_protocol, with_type_annotations):
     '''generate the python code on the fly for a MAVLink dialect'''
     dialects = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'dialects')
-    mdef = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', 'message_definitions')
+    mdef = os.getenv("MDEF", default=os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', 'message_definitions'))
     legacy_path = "python2" if not with_type_annotations else ""
     if wire_protocol == mavparse.PROTOCOL_0_9:
         py = os.path.join(dialects, 'v09', legacy_path, dialect + '.py')
@@ -352,6 +358,8 @@ def mavgen_python_dialect(dialect, wire_protocol, with_type_annotations):
     try:
         xml = os.path.relpath(xml)
         if not mavgen(opts, [xml]):
+            sys.stdout.seek(0)
+            stdout_saved.write(sys.stdout.getvalue())
             sys.stdout = stdout_saved
             return False
     except Exception:

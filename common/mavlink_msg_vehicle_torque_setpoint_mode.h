@@ -64,6 +64,39 @@ static inline uint16_t mavlink_msg_vehicle_torque_setpoint_mode_pack(uint8_t sys
 }
 
 /**
+ * @brief Pack a vehicle_torque_setpoint_mode message
+ * @param system_id ID of this system
+ * @param component_id ID of this component (e.g. 200 for IMU)
+ * @param status MAVLink status structure
+ * @param msg The MAVLink message to compress the data into
+ *
+ * @param xyz  torque setpoint about X, Y, Z body axis
+ * @return length of the message in bytes (excluding serial stream start sign)
+ */
+static inline uint16_t mavlink_msg_vehicle_torque_setpoint_mode_pack_status(uint8_t system_id, uint8_t component_id, mavlink_status_t *_status, mavlink_message_t* msg,
+                               const float *xyz)
+{
+#if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
+    char buf[MAVLINK_MSG_ID_VEHICLE_TORQUE_SETPOINT_MODE_LEN];
+
+    _mav_put_float_array(buf, 0, xyz, 3);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_VEHICLE_TORQUE_SETPOINT_MODE_LEN);
+#else
+    mavlink_vehicle_torque_setpoint_mode_t packet;
+
+    mav_array_memcpy(packet.xyz, xyz, sizeof(float)*3);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_VEHICLE_TORQUE_SETPOINT_MODE_LEN);
+#endif
+
+    msg->msgid = MAVLINK_MSG_ID_VEHICLE_TORQUE_SETPOINT_MODE;
+#if MAVLINK_CRC_EXTRA
+    return mavlink_finalize_message_buffer(msg, system_id, component_id, _status, MAVLINK_MSG_ID_VEHICLE_TORQUE_SETPOINT_MODE_MIN_LEN, MAVLINK_MSG_ID_VEHICLE_TORQUE_SETPOINT_MODE_LEN, MAVLINK_MSG_ID_VEHICLE_TORQUE_SETPOINT_MODE_CRC);
+#else
+    return mavlink_finalize_message_buffer(msg, system_id, component_id, _status, MAVLINK_MSG_ID_VEHICLE_TORQUE_SETPOINT_MODE_MIN_LEN, MAVLINK_MSG_ID_VEHICLE_TORQUE_SETPOINT_MODE_LEN);
+#endif
+}
+
+/**
  * @brief Pack a vehicle_torque_setpoint_mode message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -117,6 +150,20 @@ static inline uint16_t mavlink_msg_vehicle_torque_setpoint_mode_encode(uint8_t s
 static inline uint16_t mavlink_msg_vehicle_torque_setpoint_mode_encode_chan(uint8_t system_id, uint8_t component_id, uint8_t chan, mavlink_message_t* msg, const mavlink_vehicle_torque_setpoint_mode_t* vehicle_torque_setpoint_mode)
 {
     return mavlink_msg_vehicle_torque_setpoint_mode_pack_chan(system_id, component_id, chan, msg, vehicle_torque_setpoint_mode->xyz);
+}
+
+/**
+ * @brief Encode a vehicle_torque_setpoint_mode struct with provided status structure
+ *
+ * @param system_id ID of this system
+ * @param component_id ID of this component (e.g. 200 for IMU)
+ * @param status MAVLink status structure
+ * @param msg The MAVLink message to compress the data into
+ * @param vehicle_torque_setpoint_mode C-struct to read the message contents from
+ */
+static inline uint16_t mavlink_msg_vehicle_torque_setpoint_mode_encode_status(uint8_t system_id, uint8_t component_id, mavlink_status_t* _status, mavlink_message_t* msg, const mavlink_vehicle_torque_setpoint_mode_t* vehicle_torque_setpoint_mode)
+{
+    return mavlink_msg_vehicle_torque_setpoint_mode_pack_status(system_id, component_id, _status, msg,  vehicle_torque_setpoint_mode->xyz);
 }
 
 /**

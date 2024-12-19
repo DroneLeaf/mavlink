@@ -68,6 +68,40 @@ static inline uint16_t mavlink_msg_leaf_do_queue_traj_from_buffer_by_id_pack(uin
 }
 
 /**
+ * @brief Pack a leaf_do_queue_traj_from_buffer_by_id message
+ * @param system_id ID of this system
+ * @param component_id ID of this component (e.g. 200 for IMU)
+ * @param status MAVLink status structure
+ * @param msg The MAVLink message to compress the data into
+ *
+ * @param target_system  The system needs to queue a trajectory
+ * @param traj_id  The id of the trajectory to queue
+ * @return length of the message in bytes (excluding serial stream start sign)
+ */
+static inline uint16_t mavlink_msg_leaf_do_queue_traj_from_buffer_by_id_pack_status(uint8_t system_id, uint8_t component_id, mavlink_status_t *_status, mavlink_message_t* msg,
+                               uint8_t target_system, const char *traj_id)
+{
+#if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
+    char buf[MAVLINK_MSG_ID_LEAF_DO_QUEUE_TRAJ_FROM_BUFFER_BY_ID_LEN];
+    _mav_put_uint8_t(buf, 0, target_system);
+    _mav_put_char_array(buf, 1, traj_id, 64);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_LEAF_DO_QUEUE_TRAJ_FROM_BUFFER_BY_ID_LEN);
+#else
+    mavlink_leaf_do_queue_traj_from_buffer_by_id_t packet;
+    packet.target_system = target_system;
+    mav_array_memcpy(packet.traj_id, traj_id, sizeof(char)*64);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_LEAF_DO_QUEUE_TRAJ_FROM_BUFFER_BY_ID_LEN);
+#endif
+
+    msg->msgid = MAVLINK_MSG_ID_LEAF_DO_QUEUE_TRAJ_FROM_BUFFER_BY_ID;
+#if MAVLINK_CRC_EXTRA
+    return mavlink_finalize_message_buffer(msg, system_id, component_id, _status, MAVLINK_MSG_ID_LEAF_DO_QUEUE_TRAJ_FROM_BUFFER_BY_ID_MIN_LEN, MAVLINK_MSG_ID_LEAF_DO_QUEUE_TRAJ_FROM_BUFFER_BY_ID_LEN, MAVLINK_MSG_ID_LEAF_DO_QUEUE_TRAJ_FROM_BUFFER_BY_ID_CRC);
+#else
+    return mavlink_finalize_message_buffer(msg, system_id, component_id, _status, MAVLINK_MSG_ID_LEAF_DO_QUEUE_TRAJ_FROM_BUFFER_BY_ID_MIN_LEN, MAVLINK_MSG_ID_LEAF_DO_QUEUE_TRAJ_FROM_BUFFER_BY_ID_LEN);
+#endif
+}
+
+/**
  * @brief Pack a leaf_do_queue_traj_from_buffer_by_id message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -122,6 +156,20 @@ static inline uint16_t mavlink_msg_leaf_do_queue_traj_from_buffer_by_id_encode(u
 static inline uint16_t mavlink_msg_leaf_do_queue_traj_from_buffer_by_id_encode_chan(uint8_t system_id, uint8_t component_id, uint8_t chan, mavlink_message_t* msg, const mavlink_leaf_do_queue_traj_from_buffer_by_id_t* leaf_do_queue_traj_from_buffer_by_id)
 {
     return mavlink_msg_leaf_do_queue_traj_from_buffer_by_id_pack_chan(system_id, component_id, chan, msg, leaf_do_queue_traj_from_buffer_by_id->target_system, leaf_do_queue_traj_from_buffer_by_id->traj_id);
+}
+
+/**
+ * @brief Encode a leaf_do_queue_traj_from_buffer_by_id struct with provided status structure
+ *
+ * @param system_id ID of this system
+ * @param component_id ID of this component (e.g. 200 for IMU)
+ * @param status MAVLink status structure
+ * @param msg The MAVLink message to compress the data into
+ * @param leaf_do_queue_traj_from_buffer_by_id C-struct to read the message contents from
+ */
+static inline uint16_t mavlink_msg_leaf_do_queue_traj_from_buffer_by_id_encode_status(uint8_t system_id, uint8_t component_id, mavlink_status_t* _status, mavlink_message_t* msg, const mavlink_leaf_do_queue_traj_from_buffer_by_id_t* leaf_do_queue_traj_from_buffer_by_id)
+{
+    return mavlink_msg_leaf_do_queue_traj_from_buffer_by_id_pack_status(system_id, component_id, _status, msg,  leaf_do_queue_traj_from_buffer_by_id->target_system, leaf_do_queue_traj_from_buffer_by_id->traj_id);
 }
 
 /**

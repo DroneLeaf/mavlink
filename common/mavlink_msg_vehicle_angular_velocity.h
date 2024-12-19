@@ -76,6 +76,45 @@ static inline uint16_t mavlink_msg_vehicle_angular_velocity_pack(uint8_t system_
 }
 
 /**
+ * @brief Pack a vehicle_angular_velocity message
+ * @param system_id ID of this system
+ * @param component_id ID of this component (e.g. 200 for IMU)
+ * @param status MAVLink status structure
+ * @param msg The MAVLink message to compress the data into
+ *
+ * @param angular_velocity_x [rad/s] X component of angular velocity, positive is rolling to the right.
+ * @param angular_velocity_y [rad/s] Y component of angular velocity, positive is pitching up.
+ * @param angular_velocity_z [rad/s] Z component of angular velocity, positive is yawing to the right.
+ * @return length of the message in bytes (excluding serial stream start sign)
+ */
+static inline uint16_t mavlink_msg_vehicle_angular_velocity_pack_status(uint8_t system_id, uint8_t component_id, mavlink_status_t *_status, mavlink_message_t* msg,
+                               float angular_velocity_x, float angular_velocity_y, float angular_velocity_z)
+{
+#if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
+    char buf[MAVLINK_MSG_ID_VEHICLE_ANGULAR_VELOCITY_LEN];
+    _mav_put_float(buf, 0, angular_velocity_x);
+    _mav_put_float(buf, 4, angular_velocity_y);
+    _mav_put_float(buf, 8, angular_velocity_z);
+
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_VEHICLE_ANGULAR_VELOCITY_LEN);
+#else
+    mavlink_vehicle_angular_velocity_t packet;
+    packet.angular_velocity_x = angular_velocity_x;
+    packet.angular_velocity_y = angular_velocity_y;
+    packet.angular_velocity_z = angular_velocity_z;
+
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_VEHICLE_ANGULAR_VELOCITY_LEN);
+#endif
+
+    msg->msgid = MAVLINK_MSG_ID_VEHICLE_ANGULAR_VELOCITY;
+#if MAVLINK_CRC_EXTRA
+    return mavlink_finalize_message_buffer(msg, system_id, component_id, _status, MAVLINK_MSG_ID_VEHICLE_ANGULAR_VELOCITY_MIN_LEN, MAVLINK_MSG_ID_VEHICLE_ANGULAR_VELOCITY_LEN, MAVLINK_MSG_ID_VEHICLE_ANGULAR_VELOCITY_CRC);
+#else
+    return mavlink_finalize_message_buffer(msg, system_id, component_id, _status, MAVLINK_MSG_ID_VEHICLE_ANGULAR_VELOCITY_MIN_LEN, MAVLINK_MSG_ID_VEHICLE_ANGULAR_VELOCITY_LEN);
+#endif
+}
+
+/**
  * @brief Pack a vehicle_angular_velocity message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -135,6 +174,20 @@ static inline uint16_t mavlink_msg_vehicle_angular_velocity_encode(uint8_t syste
 static inline uint16_t mavlink_msg_vehicle_angular_velocity_encode_chan(uint8_t system_id, uint8_t component_id, uint8_t chan, mavlink_message_t* msg, const mavlink_vehicle_angular_velocity_t* vehicle_angular_velocity)
 {
     return mavlink_msg_vehicle_angular_velocity_pack_chan(system_id, component_id, chan, msg, vehicle_angular_velocity->angular_velocity_x, vehicle_angular_velocity->angular_velocity_y, vehicle_angular_velocity->angular_velocity_z);
+}
+
+/**
+ * @brief Encode a vehicle_angular_velocity struct with provided status structure
+ *
+ * @param system_id ID of this system
+ * @param component_id ID of this component (e.g. 200 for IMU)
+ * @param status MAVLink status structure
+ * @param msg The MAVLink message to compress the data into
+ * @param vehicle_angular_velocity C-struct to read the message contents from
+ */
+static inline uint16_t mavlink_msg_vehicle_angular_velocity_encode_status(uint8_t system_id, uint8_t component_id, mavlink_status_t* _status, mavlink_message_t* msg, const mavlink_vehicle_angular_velocity_t* vehicle_angular_velocity)
+{
+    return mavlink_msg_vehicle_angular_velocity_pack_status(system_id, component_id, _status, msg,  vehicle_angular_velocity->angular_velocity_x, vehicle_angular_velocity->angular_velocity_y, vehicle_angular_velocity->angular_velocity_z);
 }
 
 /**

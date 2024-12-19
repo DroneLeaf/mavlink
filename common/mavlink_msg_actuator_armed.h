@@ -100,6 +100,57 @@ static inline uint16_t mavlink_msg_actuator_armed_pack(uint8_t system_id, uint8_
 }
 
 /**
+ * @brief Pack a actuator_armed message
+ * @param system_id ID of this system
+ * @param component_id ID of this component (e.g. 200 for IMU)
+ * @param status MAVLink status structure
+ * @param msg The MAVLink message to compress the data into
+ *
+ * @param armed  Set to true if system is armed
+ * @param prearmed  Set to true if the actuator safety is disabled but motors are not armed
+ * @param ready_to_arm  Set to true if system is ready to be armed
+ * @param lockdown  Set to true if actuators are forced to being disabled (due to emergency or HIL)
+ * @param manual_lockdown  Set to true if manual throttle kill switch is engaged
+ * @param force_failsafe  Set to true if the actuators are forced to the failsafe position
+ * @param in_esc_calibration_mode  IO/FMU should ignore messages from the actuator controls topics
+ * @return length of the message in bytes (excluding serial stream start sign)
+ */
+static inline uint16_t mavlink_msg_actuator_armed_pack_status(uint8_t system_id, uint8_t component_id, mavlink_status_t *_status, mavlink_message_t* msg,
+                               uint8_t armed, uint8_t prearmed, uint8_t ready_to_arm, uint8_t lockdown, uint8_t manual_lockdown, uint8_t force_failsafe, uint8_t in_esc_calibration_mode)
+{
+#if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
+    char buf[MAVLINK_MSG_ID_ACTUATOR_ARMED_LEN];
+    _mav_put_uint8_t(buf, 0, armed);
+    _mav_put_uint8_t(buf, 1, prearmed);
+    _mav_put_uint8_t(buf, 2, ready_to_arm);
+    _mav_put_uint8_t(buf, 3, lockdown);
+    _mav_put_uint8_t(buf, 4, manual_lockdown);
+    _mav_put_uint8_t(buf, 5, force_failsafe);
+    _mav_put_uint8_t(buf, 6, in_esc_calibration_mode);
+
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_ACTUATOR_ARMED_LEN);
+#else
+    mavlink_actuator_armed_t packet;
+    packet.armed = armed;
+    packet.prearmed = prearmed;
+    packet.ready_to_arm = ready_to_arm;
+    packet.lockdown = lockdown;
+    packet.manual_lockdown = manual_lockdown;
+    packet.force_failsafe = force_failsafe;
+    packet.in_esc_calibration_mode = in_esc_calibration_mode;
+
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_ACTUATOR_ARMED_LEN);
+#endif
+
+    msg->msgid = MAVLINK_MSG_ID_ACTUATOR_ARMED;
+#if MAVLINK_CRC_EXTRA
+    return mavlink_finalize_message_buffer(msg, system_id, component_id, _status, MAVLINK_MSG_ID_ACTUATOR_ARMED_MIN_LEN, MAVLINK_MSG_ID_ACTUATOR_ARMED_LEN, MAVLINK_MSG_ID_ACTUATOR_ARMED_CRC);
+#else
+    return mavlink_finalize_message_buffer(msg, system_id, component_id, _status, MAVLINK_MSG_ID_ACTUATOR_ARMED_MIN_LEN, MAVLINK_MSG_ID_ACTUATOR_ARMED_LEN);
+#endif
+}
+
+/**
  * @brief Pack a actuator_armed message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -171,6 +222,20 @@ static inline uint16_t mavlink_msg_actuator_armed_encode(uint8_t system_id, uint
 static inline uint16_t mavlink_msg_actuator_armed_encode_chan(uint8_t system_id, uint8_t component_id, uint8_t chan, mavlink_message_t* msg, const mavlink_actuator_armed_t* actuator_armed)
 {
     return mavlink_msg_actuator_armed_pack_chan(system_id, component_id, chan, msg, actuator_armed->armed, actuator_armed->prearmed, actuator_armed->ready_to_arm, actuator_armed->lockdown, actuator_armed->manual_lockdown, actuator_armed->force_failsafe, actuator_armed->in_esc_calibration_mode);
+}
+
+/**
+ * @brief Encode a actuator_armed struct with provided status structure
+ *
+ * @param system_id ID of this system
+ * @param component_id ID of this component (e.g. 200 for IMU)
+ * @param status MAVLink status structure
+ * @param msg The MAVLink message to compress the data into
+ * @param actuator_armed C-struct to read the message contents from
+ */
+static inline uint16_t mavlink_msg_actuator_armed_encode_status(uint8_t system_id, uint8_t component_id, mavlink_status_t* _status, mavlink_message_t* msg, const mavlink_actuator_armed_t* actuator_armed)
+{
+    return mavlink_msg_actuator_armed_pack_status(system_id, component_id, _status, msg,  actuator_armed->armed, actuator_armed->prearmed, actuator_armed->ready_to_arm, actuator_armed->lockdown, actuator_armed->manual_lockdown, actuator_armed->force_failsafe, actuator_armed->in_esc_calibration_mode);
 }
 
 /**

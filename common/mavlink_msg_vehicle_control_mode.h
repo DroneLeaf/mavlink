@@ -136,6 +136,75 @@ static inline uint16_t mavlink_msg_vehicle_control_mode_pack(uint8_t system_id, 
 }
 
 /**
+ * @brief Pack a vehicle_control_mode message
+ * @param system_id ID of this system
+ * @param component_id ID of this component (e.g. 200 for IMU)
+ * @param status MAVLink status structure
+ * @param msg The MAVLink message to compress the data into
+ *
+ * @param flag_armed  synonym for actuator_armed.armed
+ * @param flag_multicopter_position_control_enabled  
+ * @param flag_control_manual_enabled  true if manual input is mixed in
+ * @param flag_control_auto_enabled  true if onboard autopilot should act
+ * @param flag_control_offboard_enabled  true if offboard control should be used
+ * @param flag_control_rates_enabled  true if rates are stabilized
+ * @param flag_control_attitude_enabled  true if attitude stabilization is mixed in
+ * @param flag_control_acceleration_enabled  true if acceleration is controlled
+ * @param flag_control_velocity_enabled  true if horizontal velocity (implies direction) is controlled
+ * @param flag_control_position_enabled  true if position is controlled
+ * @param flag_control_altitude_enabled  true if altitude is controlled
+ * @param flag_control_climb_rate_enabled  true if climb rate is controlled
+ * @param flag_control_termination_enabled  true if flighttermination is enabled
+ * @return length of the message in bytes (excluding serial stream start sign)
+ */
+static inline uint16_t mavlink_msg_vehicle_control_mode_pack_status(uint8_t system_id, uint8_t component_id, mavlink_status_t *_status, mavlink_message_t* msg,
+                               uint8_t flag_armed, uint8_t flag_multicopter_position_control_enabled, uint8_t flag_control_manual_enabled, uint8_t flag_control_auto_enabled, uint8_t flag_control_offboard_enabled, uint8_t flag_control_rates_enabled, uint8_t flag_control_attitude_enabled, uint8_t flag_control_acceleration_enabled, uint8_t flag_control_velocity_enabled, uint8_t flag_control_position_enabled, uint8_t flag_control_altitude_enabled, uint8_t flag_control_climb_rate_enabled, uint8_t flag_control_termination_enabled)
+{
+#if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
+    char buf[MAVLINK_MSG_ID_VEHICLE_CONTROL_MODE_LEN];
+    _mav_put_uint8_t(buf, 0, flag_armed);
+    _mav_put_uint8_t(buf, 1, flag_multicopter_position_control_enabled);
+    _mav_put_uint8_t(buf, 2, flag_control_manual_enabled);
+    _mav_put_uint8_t(buf, 3, flag_control_auto_enabled);
+    _mav_put_uint8_t(buf, 4, flag_control_offboard_enabled);
+    _mav_put_uint8_t(buf, 5, flag_control_rates_enabled);
+    _mav_put_uint8_t(buf, 6, flag_control_attitude_enabled);
+    _mav_put_uint8_t(buf, 7, flag_control_acceleration_enabled);
+    _mav_put_uint8_t(buf, 8, flag_control_velocity_enabled);
+    _mav_put_uint8_t(buf, 9, flag_control_position_enabled);
+    _mav_put_uint8_t(buf, 10, flag_control_altitude_enabled);
+    _mav_put_uint8_t(buf, 11, flag_control_climb_rate_enabled);
+    _mav_put_uint8_t(buf, 12, flag_control_termination_enabled);
+
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_VEHICLE_CONTROL_MODE_LEN);
+#else
+    mavlink_vehicle_control_mode_t packet;
+    packet.flag_armed = flag_armed;
+    packet.flag_multicopter_position_control_enabled = flag_multicopter_position_control_enabled;
+    packet.flag_control_manual_enabled = flag_control_manual_enabled;
+    packet.flag_control_auto_enabled = flag_control_auto_enabled;
+    packet.flag_control_offboard_enabled = flag_control_offboard_enabled;
+    packet.flag_control_rates_enabled = flag_control_rates_enabled;
+    packet.flag_control_attitude_enabled = flag_control_attitude_enabled;
+    packet.flag_control_acceleration_enabled = flag_control_acceleration_enabled;
+    packet.flag_control_velocity_enabled = flag_control_velocity_enabled;
+    packet.flag_control_position_enabled = flag_control_position_enabled;
+    packet.flag_control_altitude_enabled = flag_control_altitude_enabled;
+    packet.flag_control_climb_rate_enabled = flag_control_climb_rate_enabled;
+    packet.flag_control_termination_enabled = flag_control_termination_enabled;
+
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_VEHICLE_CONTROL_MODE_LEN);
+#endif
+
+    msg->msgid = MAVLINK_MSG_ID_VEHICLE_CONTROL_MODE;
+#if MAVLINK_CRC_EXTRA
+    return mavlink_finalize_message_buffer(msg, system_id, component_id, _status, MAVLINK_MSG_ID_VEHICLE_CONTROL_MODE_MIN_LEN, MAVLINK_MSG_ID_VEHICLE_CONTROL_MODE_LEN, MAVLINK_MSG_ID_VEHICLE_CONTROL_MODE_CRC);
+#else
+    return mavlink_finalize_message_buffer(msg, system_id, component_id, _status, MAVLINK_MSG_ID_VEHICLE_CONTROL_MODE_MIN_LEN, MAVLINK_MSG_ID_VEHICLE_CONTROL_MODE_LEN);
+#endif
+}
+
+/**
  * @brief Pack a vehicle_control_mode message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -225,6 +294,20 @@ static inline uint16_t mavlink_msg_vehicle_control_mode_encode(uint8_t system_id
 static inline uint16_t mavlink_msg_vehicle_control_mode_encode_chan(uint8_t system_id, uint8_t component_id, uint8_t chan, mavlink_message_t* msg, const mavlink_vehicle_control_mode_t* vehicle_control_mode)
 {
     return mavlink_msg_vehicle_control_mode_pack_chan(system_id, component_id, chan, msg, vehicle_control_mode->flag_armed, vehicle_control_mode->flag_multicopter_position_control_enabled, vehicle_control_mode->flag_control_manual_enabled, vehicle_control_mode->flag_control_auto_enabled, vehicle_control_mode->flag_control_offboard_enabled, vehicle_control_mode->flag_control_rates_enabled, vehicle_control_mode->flag_control_attitude_enabled, vehicle_control_mode->flag_control_acceleration_enabled, vehicle_control_mode->flag_control_velocity_enabled, vehicle_control_mode->flag_control_position_enabled, vehicle_control_mode->flag_control_altitude_enabled, vehicle_control_mode->flag_control_climb_rate_enabled, vehicle_control_mode->flag_control_termination_enabled);
+}
+
+/**
+ * @brief Encode a vehicle_control_mode struct with provided status structure
+ *
+ * @param system_id ID of this system
+ * @param component_id ID of this component (e.g. 200 for IMU)
+ * @param status MAVLink status structure
+ * @param msg The MAVLink message to compress the data into
+ * @param vehicle_control_mode C-struct to read the message contents from
+ */
+static inline uint16_t mavlink_msg_vehicle_control_mode_encode_status(uint8_t system_id, uint8_t component_id, mavlink_status_t* _status, mavlink_message_t* msg, const mavlink_vehicle_control_mode_t* vehicle_control_mode)
+{
+    return mavlink_msg_vehicle_control_mode_pack_status(system_id, component_id, _status, msg,  vehicle_control_mode->flag_armed, vehicle_control_mode->flag_multicopter_position_control_enabled, vehicle_control_mode->flag_control_manual_enabled, vehicle_control_mode->flag_control_auto_enabled, vehicle_control_mode->flag_control_offboard_enabled, vehicle_control_mode->flag_control_rates_enabled, vehicle_control_mode->flag_control_attitude_enabled, vehicle_control_mode->flag_control_acceleration_enabled, vehicle_control_mode->flag_control_velocity_enabled, vehicle_control_mode->flag_control_position_enabled, vehicle_control_mode->flag_control_altitude_enabled, vehicle_control_mode->flag_control_climb_rate_enabled, vehicle_control_mode->flag_control_termination_enabled);
 }
 
 /**

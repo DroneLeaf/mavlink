@@ -291,6 +291,151 @@ static inline uint16_t mavlink_msg_vehicle_local_position_pack(uint8_t system_id
 }
 
 /**
+ * @brief Pack a vehicle_local_position message
+ * @param system_id ID of this system
+ * @param component_id ID of this component (e.g. 200 for IMU)
+ * @param status MAVLink status structure
+ * @param msg The MAVLink message to compress the data into
+ *
+ * @param xy_valid  true if x and y are valid
+ * @param z_valid  true if z is valid
+ * @param v_xy_valid  true if vx and vy are valid
+ * @param v_z_valid  true if vz is valid
+ * @param x [m] North position in NED earth-fixed frame
+ * @param y [m] East position in NED earth-fixed frame
+ * @param z [m] Down position (negative altitude) in NED earth-fixed frame
+ * @param delta_xy  xy position reset delta
+ * @param xy_reset_counter  xy position reset counter
+ * @param delta_z  z position reset delta
+ * @param z_reset_counter  z position reset counter
+ * @param vx [m/s] North velocity in NED earth-fixed frame
+ * @param vy [m/s] East velocity in NED earth-fixed frame
+ * @param vz [m/s] Down velocity in NED earth-fixed frame
+ * @param z_deriv [m/s] Down position time derivative in NED earth-fixed frame
+ * @param delta_vxy  xy velocity reset delta
+ * @param vxy_reset_counter  xy velocity reset counter
+ * @param delta_vz  z velocity reset delta
+ * @param vz_reset_counter  z velocity reset counter
+ * @param ax [m/s^2] North velocity derivative in NED earth-fixed frame.
+ * @param ay [m/s^2] East velocity derivative in NED earth-fixed frame.
+ * @param az [m/s^2] Down velocity derivative in NED earth-fixed frame.
+ * @param xy_global  true if position (x, y) has a valid global reference (ref_lat, ref_lon)
+ * @param z_global  true if z has a valid global reference (ref_alt)
+ * @param ref_lat [degrees] Reference point latitude
+ * @param ref_lon [degrees] Reference point longitude
+ * @param ref_alt [m] Reference altitude AMSL
+ * @param dist_bottom [m] Distance from from bottom surface to ground
+ * @param dist_bottom_valid  true if distance to bottom surface is valid
+ * @param dist_bottom_sensor_bitfield  bitfield indicating what type of sensor is used to estimate dist_bottom
+ * @param eph [m] Standard deviation of horizontal position error
+ * @param epv [m] Standard deviation of vertical position error
+ * @param evh [m/s] Standard deviation of horizontal velocity error
+ * @param evv [m/s] Standard deviation of vertical velocity error
+ * @param dead_reckoning  True if this position is estimated through dead-reckoning
+ * @param vxy_max [m/s] maximum horizontal speed
+ * @param vz_max [m/s] maximum vertical speed
+ * @param hagl_min [m] minimum height above ground level
+ * @param hagl_max [m] maximum height above ground level
+ * @return length of the message in bytes (excluding serial stream start sign)
+ */
+static inline uint16_t mavlink_msg_vehicle_local_position_pack_status(uint8_t system_id, uint8_t component_id, mavlink_status_t *_status, mavlink_message_t* msg,
+                               uint8_t xy_valid, uint8_t z_valid, uint8_t v_xy_valid, uint8_t v_z_valid, float x, float y, float z, const float *delta_xy, uint8_t xy_reset_counter, float delta_z, uint8_t z_reset_counter, float vx, float vy, float vz, float z_deriv, const float *delta_vxy, uint8_t vxy_reset_counter, float delta_vz, uint8_t vz_reset_counter, float ax, float ay, float az, uint8_t xy_global, uint8_t z_global, float ref_lat, float ref_lon, float ref_alt, float dist_bottom, uint8_t dist_bottom_valid, uint8_t dist_bottom_sensor_bitfield, float eph, float epv, float evh, float evv, uint8_t dead_reckoning, float vxy_max, float vz_max, float hagl_min, float hagl_max)
+{
+#if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
+    char buf[MAVLINK_MSG_ID_VEHICLE_LOCAL_POSITION_LEN];
+    _mav_put_float(buf, 0, x);
+    _mav_put_float(buf, 4, y);
+    _mav_put_float(buf, 8, z);
+    _mav_put_float(buf, 20, delta_z);
+    _mav_put_float(buf, 24, vx);
+    _mav_put_float(buf, 28, vy);
+    _mav_put_float(buf, 32, vz);
+    _mav_put_float(buf, 36, z_deriv);
+    _mav_put_float(buf, 48, delta_vz);
+    _mav_put_float(buf, 52, ax);
+    _mav_put_float(buf, 56, ay);
+    _mav_put_float(buf, 60, az);
+    _mav_put_float(buf, 64, ref_lat);
+    _mav_put_float(buf, 68, ref_lon);
+    _mav_put_float(buf, 72, ref_alt);
+    _mav_put_float(buf, 76, dist_bottom);
+    _mav_put_float(buf, 80, eph);
+    _mav_put_float(buf, 84, epv);
+    _mav_put_float(buf, 88, evh);
+    _mav_put_float(buf, 92, evv);
+    _mav_put_float(buf, 96, vxy_max);
+    _mav_put_float(buf, 100, vz_max);
+    _mav_put_float(buf, 104, hagl_min);
+    _mav_put_float(buf, 108, hagl_max);
+    _mav_put_uint8_t(buf, 112, xy_valid);
+    _mav_put_uint8_t(buf, 113, z_valid);
+    _mav_put_uint8_t(buf, 114, v_xy_valid);
+    _mav_put_uint8_t(buf, 115, v_z_valid);
+    _mav_put_uint8_t(buf, 116, xy_reset_counter);
+    _mav_put_uint8_t(buf, 117, z_reset_counter);
+    _mav_put_uint8_t(buf, 118, vxy_reset_counter);
+    _mav_put_uint8_t(buf, 119, vz_reset_counter);
+    _mav_put_uint8_t(buf, 120, xy_global);
+    _mav_put_uint8_t(buf, 121, z_global);
+    _mav_put_uint8_t(buf, 122, dist_bottom_valid);
+    _mav_put_uint8_t(buf, 123, dist_bottom_sensor_bitfield);
+    _mav_put_uint8_t(buf, 124, dead_reckoning);
+    _mav_put_float_array(buf, 12, delta_xy, 2);
+    _mav_put_float_array(buf, 40, delta_vxy, 2);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_VEHICLE_LOCAL_POSITION_LEN);
+#else
+    mavlink_vehicle_local_position_t packet;
+    packet.x = x;
+    packet.y = y;
+    packet.z = z;
+    packet.delta_z = delta_z;
+    packet.vx = vx;
+    packet.vy = vy;
+    packet.vz = vz;
+    packet.z_deriv = z_deriv;
+    packet.delta_vz = delta_vz;
+    packet.ax = ax;
+    packet.ay = ay;
+    packet.az = az;
+    packet.ref_lat = ref_lat;
+    packet.ref_lon = ref_lon;
+    packet.ref_alt = ref_alt;
+    packet.dist_bottom = dist_bottom;
+    packet.eph = eph;
+    packet.epv = epv;
+    packet.evh = evh;
+    packet.evv = evv;
+    packet.vxy_max = vxy_max;
+    packet.vz_max = vz_max;
+    packet.hagl_min = hagl_min;
+    packet.hagl_max = hagl_max;
+    packet.xy_valid = xy_valid;
+    packet.z_valid = z_valid;
+    packet.v_xy_valid = v_xy_valid;
+    packet.v_z_valid = v_z_valid;
+    packet.xy_reset_counter = xy_reset_counter;
+    packet.z_reset_counter = z_reset_counter;
+    packet.vxy_reset_counter = vxy_reset_counter;
+    packet.vz_reset_counter = vz_reset_counter;
+    packet.xy_global = xy_global;
+    packet.z_global = z_global;
+    packet.dist_bottom_valid = dist_bottom_valid;
+    packet.dist_bottom_sensor_bitfield = dist_bottom_sensor_bitfield;
+    packet.dead_reckoning = dead_reckoning;
+    mav_array_memcpy(packet.delta_xy, delta_xy, sizeof(float)*2);
+    mav_array_memcpy(packet.delta_vxy, delta_vxy, sizeof(float)*2);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_VEHICLE_LOCAL_POSITION_LEN);
+#endif
+
+    msg->msgid = MAVLINK_MSG_ID_VEHICLE_LOCAL_POSITION;
+#if MAVLINK_CRC_EXTRA
+    return mavlink_finalize_message_buffer(msg, system_id, component_id, _status, MAVLINK_MSG_ID_VEHICLE_LOCAL_POSITION_MIN_LEN, MAVLINK_MSG_ID_VEHICLE_LOCAL_POSITION_LEN, MAVLINK_MSG_ID_VEHICLE_LOCAL_POSITION_CRC);
+#else
+    return mavlink_finalize_message_buffer(msg, system_id, component_id, _status, MAVLINK_MSG_ID_VEHICLE_LOCAL_POSITION_MIN_LEN, MAVLINK_MSG_ID_VEHICLE_LOCAL_POSITION_LEN);
+#endif
+}
+
+/**
  * @brief Pack a vehicle_local_position message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -456,6 +601,20 @@ static inline uint16_t mavlink_msg_vehicle_local_position_encode(uint8_t system_
 static inline uint16_t mavlink_msg_vehicle_local_position_encode_chan(uint8_t system_id, uint8_t component_id, uint8_t chan, mavlink_message_t* msg, const mavlink_vehicle_local_position_t* vehicle_local_position)
 {
     return mavlink_msg_vehicle_local_position_pack_chan(system_id, component_id, chan, msg, vehicle_local_position->xy_valid, vehicle_local_position->z_valid, vehicle_local_position->v_xy_valid, vehicle_local_position->v_z_valid, vehicle_local_position->x, vehicle_local_position->y, vehicle_local_position->z, vehicle_local_position->delta_xy, vehicle_local_position->xy_reset_counter, vehicle_local_position->delta_z, vehicle_local_position->z_reset_counter, vehicle_local_position->vx, vehicle_local_position->vy, vehicle_local_position->vz, vehicle_local_position->z_deriv, vehicle_local_position->delta_vxy, vehicle_local_position->vxy_reset_counter, vehicle_local_position->delta_vz, vehicle_local_position->vz_reset_counter, vehicle_local_position->ax, vehicle_local_position->ay, vehicle_local_position->az, vehicle_local_position->xy_global, vehicle_local_position->z_global, vehicle_local_position->ref_lat, vehicle_local_position->ref_lon, vehicle_local_position->ref_alt, vehicle_local_position->dist_bottom, vehicle_local_position->dist_bottom_valid, vehicle_local_position->dist_bottom_sensor_bitfield, vehicle_local_position->eph, vehicle_local_position->epv, vehicle_local_position->evh, vehicle_local_position->evv, vehicle_local_position->dead_reckoning, vehicle_local_position->vxy_max, vehicle_local_position->vz_max, vehicle_local_position->hagl_min, vehicle_local_position->hagl_max);
+}
+
+/**
+ * @brief Encode a vehicle_local_position struct with provided status structure
+ *
+ * @param system_id ID of this system
+ * @param component_id ID of this component (e.g. 200 for IMU)
+ * @param status MAVLink status structure
+ * @param msg The MAVLink message to compress the data into
+ * @param vehicle_local_position C-struct to read the message contents from
+ */
+static inline uint16_t mavlink_msg_vehicle_local_position_encode_status(uint8_t system_id, uint8_t component_id, mavlink_status_t* _status, mavlink_message_t* msg, const mavlink_vehicle_local_position_t* vehicle_local_position)
+{
+    return mavlink_msg_vehicle_local_position_pack_status(system_id, component_id, _status, msg,  vehicle_local_position->xy_valid, vehicle_local_position->z_valid, vehicle_local_position->v_xy_valid, vehicle_local_position->v_z_valid, vehicle_local_position->x, vehicle_local_position->y, vehicle_local_position->z, vehicle_local_position->delta_xy, vehicle_local_position->xy_reset_counter, vehicle_local_position->delta_z, vehicle_local_position->z_reset_counter, vehicle_local_position->vx, vehicle_local_position->vy, vehicle_local_position->vz, vehicle_local_position->z_deriv, vehicle_local_position->delta_vxy, vehicle_local_position->vxy_reset_counter, vehicle_local_position->delta_vz, vehicle_local_position->vz_reset_counter, vehicle_local_position->ax, vehicle_local_position->ay, vehicle_local_position->az, vehicle_local_position->xy_global, vehicle_local_position->z_global, vehicle_local_position->ref_lat, vehicle_local_position->ref_lon, vehicle_local_position->ref_alt, vehicle_local_position->dist_bottom, vehicle_local_position->dist_bottom_valid, vehicle_local_position->dist_bottom_sensor_bitfield, vehicle_local_position->eph, vehicle_local_position->epv, vehicle_local_position->evh, vehicle_local_position->evv, vehicle_local_position->dead_reckoning, vehicle_local_position->vxy_max, vehicle_local_position->vz_max, vehicle_local_position->hagl_min, vehicle_local_position->hagl_max);
 }
 
 /**

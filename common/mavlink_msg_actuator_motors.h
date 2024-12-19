@@ -64,6 +64,39 @@ static inline uint16_t mavlink_msg_actuator_motors_pack(uint8_t system_id, uint8
 }
 
 /**
+ * @brief Pack a actuator_motors message
+ * @param system_id ID of this system
+ * @param component_id ID of this component (e.g. 200 for IMU)
+ * @param status MAVLink status structure
+ * @param msg The MAVLink message to compress the data into
+ *
+ * @param control  range: [-1, 1]
+ * @return length of the message in bytes (excluding serial stream start sign)
+ */
+static inline uint16_t mavlink_msg_actuator_motors_pack_status(uint8_t system_id, uint8_t component_id, mavlink_status_t *_status, mavlink_message_t* msg,
+                               const float *control)
+{
+#if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
+    char buf[MAVLINK_MSG_ID_ACTUATOR_MOTORS_LEN];
+
+    _mav_put_float_array(buf, 0, control, 12);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_ACTUATOR_MOTORS_LEN);
+#else
+    mavlink_actuator_motors_t packet;
+
+    mav_array_memcpy(packet.control, control, sizeof(float)*12);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_ACTUATOR_MOTORS_LEN);
+#endif
+
+    msg->msgid = MAVLINK_MSG_ID_ACTUATOR_MOTORS;
+#if MAVLINK_CRC_EXTRA
+    return mavlink_finalize_message_buffer(msg, system_id, component_id, _status, MAVLINK_MSG_ID_ACTUATOR_MOTORS_MIN_LEN, MAVLINK_MSG_ID_ACTUATOR_MOTORS_LEN, MAVLINK_MSG_ID_ACTUATOR_MOTORS_CRC);
+#else
+    return mavlink_finalize_message_buffer(msg, system_id, component_id, _status, MAVLINK_MSG_ID_ACTUATOR_MOTORS_MIN_LEN, MAVLINK_MSG_ID_ACTUATOR_MOTORS_LEN);
+#endif
+}
+
+/**
  * @brief Pack a actuator_motors message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -117,6 +150,20 @@ static inline uint16_t mavlink_msg_actuator_motors_encode(uint8_t system_id, uin
 static inline uint16_t mavlink_msg_actuator_motors_encode_chan(uint8_t system_id, uint8_t component_id, uint8_t chan, mavlink_message_t* msg, const mavlink_actuator_motors_t* actuator_motors)
 {
     return mavlink_msg_actuator_motors_pack_chan(system_id, component_id, chan, msg, actuator_motors->control);
+}
+
+/**
+ * @brief Encode a actuator_motors struct with provided status structure
+ *
+ * @param system_id ID of this system
+ * @param component_id ID of this component (e.g. 200 for IMU)
+ * @param status MAVLink status structure
+ * @param msg The MAVLink message to compress the data into
+ * @param actuator_motors C-struct to read the message contents from
+ */
+static inline uint16_t mavlink_msg_actuator_motors_encode_status(uint8_t system_id, uint8_t component_id, mavlink_status_t* _status, mavlink_message_t* msg, const mavlink_actuator_motors_t* actuator_motors)
+{
+    return mavlink_msg_actuator_motors_pack_status(system_id, component_id, _status, msg,  actuator_motors->control);
 }
 
 /**
