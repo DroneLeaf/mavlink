@@ -121,5 +121,11 @@
       <field type="uint8_t" name="target_system">The system needs to switch to MRFT y controller</field>
       <field type="uint8_t" name="enable">1 to switch on, 0 to switch back off</field>
     </message>
+    <message id="77014" name="LEAF_DO_ARM_IDLE">
+      <description>Commands the leaf to switch to MRFT y controller</description>
+      <field type="uint8_t" name="target_system">The system needs to idle</field>
+      <field type="uint8_t" name="enable">1 to idle, 0 to disarm</field>
+    </message>
+    
   </messages>
 </mavlink>
