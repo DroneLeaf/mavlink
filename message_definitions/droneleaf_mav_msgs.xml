@@ -22,6 +22,9 @@
       <entry value="5" name="LEAF_MODE_LEARNING_FULL">
         <description>Learning all loops mode</description>
       </entry>
+      <entry value="6" name="LEAF_MODE_INSPECTION">
+        <description>Inspection mode</description>
+      </entry>
     </enum>
     <enum name="LEAF_STATUS">
       <entry value="0" name="LEAF_STATUS_READY_TO_LEARN">
@@ -56,6 +59,50 @@
       </entry>
       <entry value="10" name="LEAF_STATUS_NOT_READY">
         <description>Leaf is not ready to fly yet</description>
+      </entry>
+      <entry value="11" name="LEAF_STATUS_INSPECTION_READY">
+        <description>Leaf is ready to perform inspection</description>
+      </entry>
+      <entry value="12" name="LEAF_STATUS_GOING_TO_SLAP_1">
+        <description>Leaf is heading to slap 1</description>
+      </entry>
+      <entry value="13" name="LEAF_STATUS_GOING_TO_SLAP_2">
+        <description>Leaf is heading to slap 2</description>
+      </entry>
+      <entry value="14" name="LEAF_STATUS_INSPECTING_SLAP_1">
+        <description>Leaf is performing inspection on slap 1</description>
+      </entry>
+      <entry value="15" name="LEAF_STATUS_INSPECTING_SLAP_2">
+        <description>Leaf is performing inspection on slap 2</description>
+      </entry>
+      <entry value="16" name="LEAF_STATUS_INSPECTING_SLAP_1_FINISHED">
+        <description>Leaf has finished inspection on slap 1</description>
+      </entry>
+      <entry value="17" name="LEAF_STATUS_INSPECTING_SLAP_2_FINISHED">
+        <description>Leaf has finished inspection on slap 2</description>
+      </entry>
+      <entry value="18" name="LEAF_STATUS_INSPECTING_FINISHED">
+        <description>Leaf has finished inspection</description>
+      </entry>
+      <entry value="19" name="LEAF_STATUS_INSPECTING_ABORTED">
+        <description>Leaf has aborted inspection</description>
+      </entry>
+      <entry value="20" name="LEAF_STATUS_INSPECTING_PAUSED">
+        <description>Leaf has paused inspection</description>
+      </entry>
+      <entry value="21" name="LEAF_STATUS_RETURNING_TO_HOME">
+        <description>Leaf is heading to home</description>
+      </entry>
+    </enum>
+    <enum name="LEAF_CONTROL_COMMAND">
+      <entry value="0" name="LEAF_CONTROL_PAUSE">
+        <description>Pause the exection of the current mission</description>
+      </entry>
+      <entry value="1" name="LEAF_CONTROL_RESUME">
+        <description>Resume the exection of the current mission</description>
+      </entry>
+      <entry value="2" name="LEAF_CONTROL_ABORT">
+        <description>Abort the exection of the current mission</description>
       </entry>
     </enum>
   </enums>
@@ -121,11 +168,25 @@
       <field type="uint8_t" name="target_system">The system needs to switch to MRFT y controller</field>
       <field type="uint8_t" name="enable">1 to switch on, 0 to switch back off</field>
     </message>
-    <message id="77014" name="LEAF_DO_ARM_IDLE">
+    <message id="77014" name="LEAF_DO_INSPECT">
+      <description>Commands the leaf to perform inspection</description>
+      <field type="uint8_t" name="target_system">The system needs to perform inspection</field>
+      <field type="uint8_t" name="slap">The slap to inspect, 1 or 2 or 0 for both</field>
+    </message>
+    <message id="77015" name="LEAF_CONTROL_CMD">
+      <description>Commands the leaf to execute a control command</description>
+      <field type="uint8_t" name="target_system">The system needs to execute a control command</field>
+      <field type="uint8_t" name="cmd" enum="LEAF_CONTROL_COMMAND">The control command to execute</field>
+    </message>
+    <message id="77016" name="LEAF_SAY_TO_QGC">
+      <description>Commands the leaf to say something to QGC</description>
+      <field type="uint8_t" name="target_system">The system needs to say something to QGC</field>
+      <field type="char[64]" name="content">The message to say</field>
+    </message>
+    <message id="77017" name="LEAF_DO_ARM_IDLE">
       <description>Commands the leaf to switch to MRFT y controller</description>
       <field type="uint8_t" name="target_system">The system needs to idle</field>
       <field type="uint8_t" name="enable">1 to idle, 0 to disarm</field>
     </message>
-    
   </messages>
 </mavlink>
