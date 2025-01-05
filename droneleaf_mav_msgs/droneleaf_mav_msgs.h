@@ -10,7 +10,7 @@
     #error Wrong include order: MAVLINK_DRONELEAF_MAV_MSGS.H MUST NOT BE DIRECTLY USED. Include mavlink.h from the same directory instead or set ALL AND EVERY defines from MAVLINK.H manually accordingly, including the #define MAVLINK_H call.
 #endif
 
-#define MAVLINK_DRONELEAF_MAV_MSGS_XML_HASH -4045350464040767205
+#define MAVLINK_DRONELEAF_MAV_MSGS_XML_HASH -6600363258760738455
 
 #ifdef __cplusplus
 extern "C" {
@@ -38,10 +38,13 @@ extern "C" {
 #define HAVE_ENUM_LEAF_MODE
 typedef enum LEAF_MODE
 {
-   LEAF_MODE_MANUAL=0, /* Manual mode | */
+   LEAF_MODE_RC_Stabilized=0, /* Remote control stabilized mode | */
    LEAF_MODE_RC_POSITION=1, /* Remote control position mode | */
-   LEAF_MODE_LEARNING=2, /* Learning mode | */
-   LEAF_MODE_ENUM_END=3, /*  | */
+   LEAF_MODE_WAYPOINT_MISSION=2, /* Waypoint mission mode | */
+   LEAF_MODE_LEARNING_INNER=3, /* Learning inner loops mode | */
+   LEAF_MODE_LEARNING_OUTER=4, /* Learning outer loops mode | */
+   LEAF_MODE_LEARNING_FULL=5, /* Learning all loops mode | */
+   LEAF_MODE_ENUM_END=6, /*  | */
 } LEAF_MODE;
 #endif
 
@@ -54,13 +57,13 @@ typedef enum LEAF_STATUS
    LEAF_STATUS_LEARNING=1, /* Leaf is learning | */
    LEAF_STATUS_READY_TO_FLY=2, /* Leaf is ready to fly | */
    LEAF_STATUS_TAKING_OFF=3, /* Leaf is taking off | */
-   LEAF_STATUS_HOVERING=4, /* Leaf is hovering | */
+   LEAF_STATUS_FLYING=4, /* Leaf is flying | */
    LEAF_STATUS_LANDING=5, /* Leaf is landing | */
    LEAF_STATUS_LANDED=6, /* Leaf has landed | */
-   LEAF_STATUS_EMERGENCY=7, /* Leaf is in emergency mode | */
+   LEAF_STATUS_ARMED_IDLE=7, /* Leaf is in idle mode | */
    LEAF_STATUS_ARMED=8, /* Leaf is armed | */
    LEAF_STATUS_DISARMED=9, /* Leaf is disarmed | */
-   LEAF_STATUS_NOT_READY=10, /* Leaf is not connected with FC yet | */
+   LEAF_STATUS_NOT_READY=10, /* Leaf is not ready to fly yet | */
    LEAF_STATUS_ENUM_END=11, /*  | */
 } LEAF_STATUS;
 #endif
