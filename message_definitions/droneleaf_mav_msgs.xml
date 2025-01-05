@@ -183,5 +183,10 @@
       <field type="uint8_t" name="target_system">The system needs to say something to QGC</field>
       <field type="char[64]" name="content">The message to say</field>
     </message>
+    <message id="77017" name="LEAF_DO_ARM_IDLE">
+      <description>Commands the leaf to switch to MRFT y controller</description>
+      <field type="uint8_t" name="target_system">The system needs to idle</field>
+      <field type="uint8_t" name="enable">1 to idle, 0 to disarm</field>
+    </message>
   </messages>
 </mavlink>
