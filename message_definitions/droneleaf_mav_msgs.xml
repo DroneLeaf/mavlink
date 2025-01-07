@@ -188,5 +188,9 @@
       <field type="uint8_t" name="target_system">The system needs to idle</field>
       <field type="uint8_t" name="enable">1 to idle, 0 to disarm</field>
     </message>
+    <message id="77018" name="LEAF_CLIENT_TAGNAME">
+      <description>The client tag name</description>
+      <field type="char[64]" name="tagname">The tag name of the client</field>
+    </message>
   </messages>
 </mavlink>
