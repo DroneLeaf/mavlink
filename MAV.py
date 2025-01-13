@@ -7914,6 +7914,7 @@ MAVLINK_MSG_ID_LEAF_CONTROL_CMD = 77015
 MAVLINK_MSG_ID_LEAF_SAY_TO_QGC = 77016
 MAVLINK_MSG_ID_LEAF_DO_ARM_IDLE = 77017
 MAVLINK_MSG_ID_LEAF_CLIENT_TAGNAME = 77018
+MAVLINK_MSG_ID_LEAF_MRFT_STATUS = 77019
 
 
 class MAVLink_sensor_offsets_message(MAVLink_message):
@@ -25504,6 +25505,48 @@ class MAVLink_leaf_client_tagname_message(MAVLink_message):
 setattr(MAVLink_leaf_client_tagname_message, "name", mavlink_msg_deprecated_name_property())
 
 
+class MAVLink_leaf_mrft_status_message(MAVLink_message):
+    """
+    The MRFT status
+    """
+
+    id = MAVLINK_MSG_ID_LEAF_MRFT_STATUS
+    msgname = "LEAF_MRFT_STATUS"
+    fieldnames = ["roll", "pitch", "alt", "x", "y"]
+    ordered_fieldnames = ["roll", "pitch", "alt", "x", "y"]
+    fieldtypes = ["uint8_t", "uint8_t", "uint8_t", "uint8_t", "uint8_t"]
+    fielddisplays_by_name: Dict[str, str] = {}
+    fieldenums_by_name: Dict[str, str] = {}
+    fieldunits_by_name: Dict[str, str] = {}
+    native_format = bytearray(b"<BBBBB")
+    orders = [0, 1, 2, 3, 4]
+    lengths = [1, 1, 1, 1, 1]
+    array_lengths = [0, 0, 0, 0, 0]
+    crc_extra = 198
+    unpacker = struct.Struct("<BBBBB")
+    instance_field = None
+    instance_offset = -1
+
+    def __init__(self, roll: int, pitch: int, alt: int, x: int, y: int):
+        MAVLink_message.__init__(self, MAVLink_leaf_mrft_status_message.id, MAVLink_leaf_mrft_status_message.msgname)
+        self._fieldnames = MAVLink_leaf_mrft_status_message.fieldnames
+        self._instance_field = MAVLink_leaf_mrft_status_message.instance_field
+        self._instance_offset = MAVLink_leaf_mrft_status_message.instance_offset
+        self.roll = roll
+        self.pitch = pitch
+        self.alt = alt
+        self.x = x
+        self.y = y
+
+    def pack(self, mav: "MAVLink", force_mavlink1: bool = False) -> bytes:
+        return self._pack(mav, self.crc_extra, self.unpacker.pack(self.roll, self.pitch, self.alt, self.x, self.y), force_mavlink1=force_mavlink1)
+
+
+# Define name on the class for backwards compatibility (it is now msgname).
+# Done with setattr to hide the class variable from mypy.
+setattr(MAVLink_leaf_mrft_status_message, "name", mavlink_msg_deprecated_name_property())
+
+
 mavlink_map: Dict[int, Type[MAVLink_message]] = {
     MAVLINK_MSG_ID_SENSOR_OFFSETS: MAVLink_sensor_offsets_message,
     MAVLINK_MSG_ID_SET_MAG_OFFSETS: MAVLink_set_mag_offsets_message,
@@ -25885,6 +25928,7 @@ mavlink_map: Dict[int, Type[MAVLink_message]] = {
     MAVLINK_MSG_ID_LEAF_SAY_TO_QGC: MAVLink_leaf_say_to_qgc_message,
     MAVLINK_MSG_ID_LEAF_DO_ARM_IDLE: MAVLink_leaf_do_arm_idle_message,
     MAVLINK_MSG_ID_LEAF_CLIENT_TAGNAME: MAVLink_leaf_client_tagname_message,
+    MAVLINK_MSG_ID_LEAF_MRFT_STATUS: MAVLink_leaf_mrft_status_message,
 }
 
 
@@ -39357,3 +39401,29 @@ class MAVLink(object):
 
         """
         self.send(self.leaf_client_tagname_encode(tagname), force_mavlink1=force_mavlink1)
+
+    def leaf_mrft_status_encode(self, roll: int, pitch: int, alt: int, x: int, y: int) -> MAVLink_leaf_mrft_status_message:
+        """
+        The MRFT status
+
+        roll                      : The roll MRFT status (type:uint8_t)
+        pitch                     : The pitch MRFT status (type:uint8_t)
+        alt                       : The altitude MRFT status (type:uint8_t)
+        x                         : The x MRFT status (type:uint8_t)
+        y                         : The y MRFT status (type:uint8_t)
+
+        """
+        return MAVLink_leaf_mrft_status_message(roll, pitch, alt, x, y)
+
+    def leaf_mrft_status_send(self, roll: int, pitch: int, alt: int, x: int, y: int, force_mavlink1: bool = False) -> None:
+        """
+        The MRFT status
+
+        roll                      : The roll MRFT status (type:uint8_t)
+        pitch                     : The pitch MRFT status (type:uint8_t)
+        alt                       : The altitude MRFT status (type:uint8_t)
+        x                         : The x MRFT status (type:uint8_t)
+        y                         : The y MRFT status (type:uint8_t)
+
+        """
+        self.send(self.leaf_mrft_status_encode(roll, pitch, alt, x, y), force_mavlink1=force_mavlink1)

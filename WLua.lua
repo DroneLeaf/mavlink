@@ -422,6 +422,7 @@ messageName = {
     [77016] = 'LEAF_SAY_TO_QGC',
     [77017] = 'LEAF_DO_ARM_IDLE',
     [77018] = 'LEAF_CLIENT_TAGNAME',
+    [77019] = 'LEAF_MRFT_STATUS',
 }
 
 local enumEntryName = {
@@ -12824,6 +12825,12 @@ f.LEAF_DO_ARM_IDLE_target_system = ProtoField.new("target_system (uint8_t)", "ma
 f.LEAF_DO_ARM_IDLE_enable = ProtoField.new("enable (uint8_t)", "mavlink_proto.LEAF_DO_ARM_IDLE_enable", ftypes.UINT8, nil)
 
 f.LEAF_CLIENT_TAGNAME_tagname = ProtoField.new("tagname (char)", "mavlink_proto.LEAF_CLIENT_TAGNAME_tagname", ftypes.STRING, nil)
+
+f.LEAF_MRFT_STATUS_roll = ProtoField.new("roll (uint8_t)", "mavlink_proto.LEAF_MRFT_STATUS_roll", ftypes.UINT8, nil)
+f.LEAF_MRFT_STATUS_pitch = ProtoField.new("pitch (uint8_t)", "mavlink_proto.LEAF_MRFT_STATUS_pitch", ftypes.UINT8, nil)
+f.LEAF_MRFT_STATUS_alt = ProtoField.new("alt (uint8_t)", "mavlink_proto.LEAF_MRFT_STATUS_alt", ftypes.UINT8, nil)
+f.LEAF_MRFT_STATUS_x = ProtoField.new("x (uint8_t)", "mavlink_proto.LEAF_MRFT_STATUS_x", ftypes.UINT8, nil)
+f.LEAF_MRFT_STATUS_y = ProtoField.new("y (uint8_t)", "mavlink_proto.LEAF_MRFT_STATUS_y", ftypes.UINT8, nil)
 
 -- dissect flag field
 function dissect_flags_LIMIT_MODULE(tree, name, tvbrange, value)
@@ -66543,6 +66550,27 @@ function payload_fns.payload_77018(buffer, tree, msgid, offset, limit, pinfo)
     end
     tvbrange = padded(offset + 0, 64)
     subtree = tree:add_le(f.LEAF_CLIENT_TAGNAME_tagname, tvbrange)
+end
+-- dissect payload of message type LEAF_MRFT_STATUS
+function payload_fns.payload_77019(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 5 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 5)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 0, 1)
+    subtree = tree:add_le(f.LEAF_MRFT_STATUS_roll, tvbrange)
+    tvbrange = padded(offset + 1, 1)
+    subtree = tree:add_le(f.LEAF_MRFT_STATUS_pitch, tvbrange)
+    tvbrange = padded(offset + 2, 1)
+    subtree = tree:add_le(f.LEAF_MRFT_STATUS_alt, tvbrange)
+    tvbrange = padded(offset + 3, 1)
+    subtree = tree:add_le(f.LEAF_MRFT_STATUS_x, tvbrange)
+    tvbrange = padded(offset + 4, 1)
+    subtree = tree:add_le(f.LEAF_MRFT_STATUS_y, tvbrange)
 end
 -- dissector function
 function mavlink_proto.dissector(buffer,pinfo,tree)
