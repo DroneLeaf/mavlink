@@ -193,5 +193,13 @@
       <description>The client tag name</description>
       <field type="char[64]" name="tagname">The tag name of the client</field>
     </message>
+    <message id="77019" name="LEAF_MRFT_STATUS">
+      <description>The MRFT status</description>
+      <field type="uint8_t" name="roll">The roll MRFT status</field>
+      <field type="uint8_t" name="pitch">The pitch MRFT status</field>
+      <field type="uint8_t" name="alt">The altitude MRFT status</field>
+      <field type="uint8_t" name="x">The x MRFT status</field>
+      <field type="uint8_t" name="y">The y MRFT status</field>
+    </message>
   </messages>
 </mavlink>
