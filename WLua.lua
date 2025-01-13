@@ -12786,6 +12786,7 @@ f.LEAF_DO_ARM_target_system = ProtoField.new("target_system (uint8_t)", "mavlink
 f.LEAF_DO_ARM_arm = ProtoField.new("arm (uint8_t)", "mavlink_proto.LEAF_DO_ARM_arm", ftypes.UINT8, nil)
 
 f.LEAF_DO_TAKEOFF_target_system = ProtoField.new("target_system (uint8_t)", "mavlink_proto.LEAF_DO_TAKEOFF_target_system", ftypes.UINT8, nil)
+f.LEAF_DO_TAKEOFF_altitude = ProtoField.new("altitude (float)", "mavlink_proto.LEAF_DO_TAKEOFF_altitude", ftypes.FLOAT, nil)
 
 f.LEAF_DO_LAND_target_system = ProtoField.new("target_system (uint8_t)", "mavlink_proto.LEAF_DO_LAND_target_system", ftypes.UINT8, nil)
 
@@ -66340,15 +66341,17 @@ end
 -- dissect payload of message type LEAF_DO_TAKEOFF
 function payload_fns.payload_77005(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
-    if (offset + 1 > limit) then
+    if (offset + 5 > limit) then
         padded = buffer(0, limit):bytes()
-        padded:set_size(offset + 1)
+        padded:set_size(offset + 5)
         padded = padded:tvb("Untruncated payload")
     else
         padded = buffer
     end
-    tvbrange = padded(offset + 0, 1)
+    tvbrange = padded(offset + 4, 1)
     subtree = tree:add_le(f.LEAF_DO_TAKEOFF_target_system, tvbrange)
+    tvbrange = padded(offset + 0, 4)
+    subtree = tree:add_le(f.LEAF_DO_TAKEOFF_altitude, tvbrange)
 end
 -- dissect payload of message type LEAF_DO_LAND
 function payload_fns.payload_77006(buffer, tree, msgid, offset, limit, pinfo)

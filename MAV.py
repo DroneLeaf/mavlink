@@ -16,7 +16,7 @@ from builtins import object, range
 from typing import Any, Callable, Dict, Iterable, List, Mapping, Optional, Sequence, Tuple, Type, Union, cast
 
 WIRE_PROTOCOL_VERSION = "2.0"
-DIALECT = "Documents"
+DIALECT = "pymavlink"
 
 PROTOCOL_MARKER_V1 = 0xFE
 PROTOCOL_MARKER_V2 = 0xFD
@@ -24964,30 +24964,31 @@ class MAVLink_leaf_do_takeoff_message(MAVLink_message):
 
     id = MAVLINK_MSG_ID_LEAF_DO_TAKEOFF
     msgname = "LEAF_DO_TAKEOFF"
-    fieldnames = ["target_system"]
-    ordered_fieldnames = ["target_system"]
-    fieldtypes = ["uint8_t"]
+    fieldnames = ["target_system", "altitude"]
+    ordered_fieldnames = ["altitude", "target_system"]
+    fieldtypes = ["uint8_t", "float"]
     fielddisplays_by_name: Dict[str, str] = {}
     fieldenums_by_name: Dict[str, str] = {}
     fieldunits_by_name: Dict[str, str] = {}
-    native_format = bytearray(b"<B")
-    orders = [0]
-    lengths = [1]
-    array_lengths = [0]
-    crc_extra = 140
-    unpacker = struct.Struct("<B")
+    native_format = bytearray(b"<fB")
+    orders = [1, 0]
+    lengths = [1, 1]
+    array_lengths = [0, 0]
+    crc_extra = 214
+    unpacker = struct.Struct("<fB")
     instance_field = None
     instance_offset = -1
 
-    def __init__(self, target_system: int):
+    def __init__(self, target_system: int, altitude: float):
         MAVLink_message.__init__(self, MAVLink_leaf_do_takeoff_message.id, MAVLink_leaf_do_takeoff_message.msgname)
         self._fieldnames = MAVLink_leaf_do_takeoff_message.fieldnames
         self._instance_field = MAVLink_leaf_do_takeoff_message.instance_field
         self._instance_offset = MAVLink_leaf_do_takeoff_message.instance_offset
         self.target_system = target_system
+        self.altitude = altitude
 
     def pack(self, mav: "MAVLink", force_mavlink1: bool = False) -> bytes:
-        return self._pack(mav, self.crc_extra, self.unpacker.pack(self.target_system), force_mavlink1=force_mavlink1)
+        return self._pack(mav, self.crc_extra, self.unpacker.pack(self.altitude, self.target_system), force_mavlink1=force_mavlink1)
 
 
 # Define name on the class for backwards compatibility (it is now msgname).
@@ -39081,23 +39082,25 @@ class MAVLink(object):
         """
         self.send(self.leaf_do_arm_encode(target_system, arm), force_mavlink1=force_mavlink1)
 
-    def leaf_do_takeoff_encode(self, target_system: int) -> MAVLink_leaf_do_takeoff_message:
+    def leaf_do_takeoff_encode(self, target_system: int, altitude: float) -> MAVLink_leaf_do_takeoff_message:
         """
         Commands the leaf to takeoff
 
         target_system             : The system needs to takeoff (type:uint8_t)
+        altitude                  : The altitude to takeoff to (type:float)
 
         """
-        return MAVLink_leaf_do_takeoff_message(target_system)
+        return MAVLink_leaf_do_takeoff_message(target_system, altitude)
 
-    def leaf_do_takeoff_send(self, target_system: int, force_mavlink1: bool = False) -> None:
+    def leaf_do_takeoff_send(self, target_system: int, altitude: float, force_mavlink1: bool = False) -> None:
         """
         Commands the leaf to takeoff
 
         target_system             : The system needs to takeoff (type:uint8_t)
+        altitude                  : The altitude to takeoff to (type:float)
 
         """
-        self.send(self.leaf_do_takeoff_encode(target_system), force_mavlink1=force_mavlink1)
+        self.send(self.leaf_do_takeoff_encode(target_system, altitude), force_mavlink1=force_mavlink1)
 
     def leaf_do_land_encode(self, target_system: int) -> MAVLink_leaf_do_land_message:
         """

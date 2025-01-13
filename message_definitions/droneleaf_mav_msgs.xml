@@ -128,6 +128,7 @@
     <message id="77005" name="LEAF_DO_TAKEOFF">
       <description>Commands the leaf to takeoff</description>
       <field type="uint8_t" name="target_system">The system needs to takeoff</field>
+      <field type="float" name="altitude">The altitude to takeoff to</field>
     </message>
     <message id="77006" name="LEAF_DO_LAND">
       <description>Commands the leaf to land</description>
