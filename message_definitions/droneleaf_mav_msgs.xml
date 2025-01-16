@@ -3,6 +3,17 @@
   <include>common.xml</include>
   <version>1</version>
   <enums>
+    <enum name="LEAF_INSPECTION_OPTION">
+      <entry value="0" name="LEAF_INSPECTION_OPTION_BOTH">
+        <description>Inspect both north and south</description>
+      </entry>
+      <entry value="1" name="LEAF_INSPECTION_OPTION_NORTH">
+        <description>Inspect only the north</description>
+      </entry>
+      <entry value="2" name="LEAF_INSPECTION_OPTION_SOUTH">
+        <description>Inspect only the south</description>
+      </entry>
+    </enum>
     <enum name="LEAF_MODE">
       <entry value="0" name="LEAF_MODE_RC_Stabilized">
         <description>Remote control stabilized mode</description>
@@ -24,6 +35,12 @@
       </entry>
       <entry value="6" name="LEAF_MODE_INSPECTION">
         <description>Inspection mode</description>
+      </entry>
+      <entry value="7" name="LEAF_MODE_REFINED_TUNING_ONLINE">
+        <description>Refined tuning online mode</description>
+      </entry>
+      <entry value="8" name="LEAF_MODE_REFINED_TUNING_OFFLINE">
+        <description>Refined tuning offline mode</description>
       </entry>
     </enum>
     <enum name="LEAF_STATUS">
@@ -200,6 +217,15 @@
       <field type="uint8_t" name="alt">The altitude MRFT status</field>
       <field type="uint8_t" name="x">The x MRFT status</field>
       <field type="uint8_t" name="y">The y MRFT status</field>
+    </message>
+    <message id="77020" name="LEAF_INSPECTION_OPTION">
+      <description>The inspection option, as defined by enum LEAF_INSPECTION_OPTION</description>
+      <field type="uint8_t" name="option" enum="LEAF_INSPECTION_OPTION">The new leaf inspection option.</field>
+    </message>
+    <message id="77021" name="LEAF_SET_INSPECTION_OPTION">
+      <description>Set the inspection option, as defined by enum LEAF_INSPECTION_OPTION.</description>
+      <field type="uint8_t" name="target_system">The system setting the mode</field>
+      <field type="uint8_t" name="option" enum="LEAF_INSPECTION_OPTION">The new leaf inspection option.</field>
     </message>
   </messages>
 </mavlink>
