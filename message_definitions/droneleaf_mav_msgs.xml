@@ -227,5 +227,12 @@
       <field type="uint8_t" name="target_system">The system setting the mode</field>
       <field type="uint8_t" name="option" enum="LEAF_INSPECTION_OPTION">The new leaf inspection option.</field>
     </message>
+    <message id="77022" name="LEAF_HEARTBEAT">
+      <description>The heartbeat message</description>
+      <field type="uint8_t" name="status" enum="LEAF_STATUS">The status of the system</field>
+      <field type="uint8_t" name="mode" enum="LEAF_MODE">The mode of the system</field>
+      <field type="char[64]" name="profile">The profile of the system</field>
+      <field type="char[64]" name="version">The version of the system</field>
+    </message>
   </messages>
 </mavlink>

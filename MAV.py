@@ -16,7 +16,7 @@ from builtins import object, range
 from typing import Any, Callable, Dict, Iterable, List, Mapping, Optional, Sequence, Tuple, Type, Union, cast
 
 WIRE_PROTOCOL_VERSION = "2.0"
-DIALECT = "pymavlink"
+DIALECT = "MAV"
 
 PROTOCOL_MARKER_V1 = 0xFE
 PROTOCOL_MARKER_V2 = 0xFD
@@ -7932,6 +7932,7 @@ MAVLINK_MSG_ID_LEAF_CLIENT_TAGNAME = 77018
 MAVLINK_MSG_ID_LEAF_MRFT_STATUS = 77019
 MAVLINK_MSG_ID_LEAF_INSPECTION_OPTION = 77020
 MAVLINK_MSG_ID_LEAF_SET_INSPECTION_OPTION = 77021
+MAVLINK_MSG_ID_LEAF_HEARTBEAT = 77022
 
 
 class MAVLink_sensor_offsets_message(MAVLink_message):
@@ -25642,6 +25643,49 @@ class MAVLink_leaf_set_inspection_option_message(MAVLink_message):
 setattr(MAVLink_leaf_set_inspection_option_message, "name", mavlink_msg_deprecated_name_property())
 
 
+class MAVLink_leaf_heartbeat_message(MAVLink_message):
+    """
+    The heartbeat message
+    """
+
+    id = MAVLINK_MSG_ID_LEAF_HEARTBEAT
+    msgname = "LEAF_HEARTBEAT"
+    fieldnames = ["status", "mode", "profile", "version"]
+    ordered_fieldnames = ["status", "mode", "profile", "version"]
+    fieldtypes = ["uint8_t", "uint8_t", "char", "char"]
+    fielddisplays_by_name: Dict[str, str] = {}
+    fieldenums_by_name: Dict[str, str] = {"status": "LEAF_STATUS", "mode": "LEAF_MODE"}
+    fieldunits_by_name: Dict[str, str] = {}
+    native_format = bytearray(b"<BBcc")
+    orders = [0, 1, 2, 3]
+    lengths = [1, 1, 1, 1]
+    array_lengths = [0, 0, 64, 64]
+    crc_extra = 7
+    unpacker = struct.Struct("<BB64s64s")
+    instance_field = None
+    instance_offset = -1
+
+    def __init__(self, status: int, mode: int, profile: bytes, version: bytes):
+        MAVLink_message.__init__(self, MAVLink_leaf_heartbeat_message.id, MAVLink_leaf_heartbeat_message.msgname)
+        self._fieldnames = MAVLink_leaf_heartbeat_message.fieldnames
+        self._instance_field = MAVLink_leaf_heartbeat_message.instance_field
+        self._instance_offset = MAVLink_leaf_heartbeat_message.instance_offset
+        self.status = status
+        self.mode = mode
+        self._profile_raw = profile
+        self.profile = profile.split(b"\x00", 1)[0].decode("ascii", errors="replace")
+        self._version_raw = version
+        self.version = version.split(b"\x00", 1)[0].decode("ascii", errors="replace")
+
+    def pack(self, mav: "MAVLink", force_mavlink1: bool = False) -> bytes:
+        return self._pack(mav, self.crc_extra, self.unpacker.pack(self.status, self.mode, self._profile_raw, self._version_raw), force_mavlink1=force_mavlink1)
+
+
+# Define name on the class for backwards compatibility (it is now msgname).
+# Done with setattr to hide the class variable from mypy.
+setattr(MAVLink_leaf_heartbeat_message, "name", mavlink_msg_deprecated_name_property())
+
+
 mavlink_map: Dict[int, Type[MAVLink_message]] = {
     MAVLINK_MSG_ID_SENSOR_OFFSETS: MAVLink_sensor_offsets_message,
     MAVLINK_MSG_ID_SET_MAG_OFFSETS: MAVLink_set_mag_offsets_message,
@@ -26026,6 +26070,7 @@ mavlink_map: Dict[int, Type[MAVLink_message]] = {
     MAVLINK_MSG_ID_LEAF_MRFT_STATUS: MAVLink_leaf_mrft_status_message,
     MAVLINK_MSG_ID_LEAF_INSPECTION_OPTION: MAVLink_leaf_inspection_option_message,
     MAVLINK_MSG_ID_LEAF_SET_INSPECTION_OPTION: MAVLink_leaf_set_inspection_option_message,
+    MAVLINK_MSG_ID_LEAF_HEARTBEAT: MAVLink_leaf_heartbeat_message,
 }
 
 
@@ -39562,3 +39607,27 @@ class MAVLink(object):
 
         """
         self.send(self.leaf_set_inspection_option_encode(target_system, option), force_mavlink1=force_mavlink1)
+
+    def leaf_heartbeat_encode(self, status: int, mode: int, profile: bytes, version: bytes) -> MAVLink_leaf_heartbeat_message:
+        """
+        The heartbeat message
+
+        status                    : The status of the system (type:uint8_t, values:LEAF_STATUS)
+        mode                      : The mode of the system (type:uint8_t, values:LEAF_MODE)
+        profile                   : The profile of the system (type:char)
+        version                   : The version of the system (type:char)
+
+        """
+        return MAVLink_leaf_heartbeat_message(status, mode, profile, version)
+
+    def leaf_heartbeat_send(self, status: int, mode: int, profile: bytes, version: bytes, force_mavlink1: bool = False) -> None:
+        """
+        The heartbeat message
+
+        status                    : The status of the system (type:uint8_t, values:LEAF_STATUS)
+        mode                      : The mode of the system (type:uint8_t, values:LEAF_MODE)
+        profile                   : The profile of the system (type:char)
+        version                   : The version of the system (type:char)
+
+        """
+        self.send(self.leaf_heartbeat_encode(status, mode, profile, version), force_mavlink1=force_mavlink1)
