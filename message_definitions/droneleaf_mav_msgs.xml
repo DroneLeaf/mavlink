@@ -42,6 +42,9 @@
       <entry value="8" name="LEAF_MODE_REFINED_TUNING_OFFLINE">
         <description>Refined tuning offline mode</description>
       </entry>
+      <entry value="9" name="LEAF_MODE_REFINED_TUNING_OUTER">
+        <description>Refined tuning outer mode</description>
+      </entry>
     </enum>
     <enum name="LEAF_STATUS">
       <entry value="0" name="LEAF_STATUS_READY_TO_LEARN">

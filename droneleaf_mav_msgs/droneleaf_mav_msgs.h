@@ -10,7 +10,7 @@
     #error Wrong include order: MAVLINK_DRONELEAF_MAV_MSGS.H MUST NOT BE DIRECTLY USED. Include mavlink.h from the same directory instead or set ALL AND EVERY defines from MAVLINK.H manually accordingly, including the #define MAVLINK_H call.
 #endif
 
-#define MAVLINK_DRONELEAF_MAV_MSGS_XML_HASH 6242250969338060218
+#define MAVLINK_DRONELEAF_MAV_MSGS_XML_HASH 8379561249736227146
 
 #ifdef __cplusplus
 extern "C" {
@@ -59,7 +59,8 @@ typedef enum LEAF_MODE
    LEAF_MODE_INSPECTION=6, /* Inspection mode | */
    LEAF_MODE_REFINED_TUNING_ONLINE=7, /* Refined tuning online mode | */
    LEAF_MODE_REFINED_TUNING_OFFLINE=8, /* Refined tuning offline mode | */
-   LEAF_MODE_ENUM_END=9, /*  | */
+   LEAF_MODE_REFINED_TUNING_OUTER=9, /* Refined tuning outer mode | */
+   LEAF_MODE_ENUM_END=10, /*  | */
 } LEAF_MODE;
 #endif
 

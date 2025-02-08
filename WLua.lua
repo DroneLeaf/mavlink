@@ -425,6 +425,7 @@ messageName = {
     [77019] = 'LEAF_MRFT_STATUS',
     [77020] = 'LEAF_INSPECTION_OPTION',
     [77021] = 'LEAF_SET_INSPECTION_OPTION',
+    [77022] = 'LEAF_HEARTBEAT',
 }
 
 local enumEntryName = {
@@ -2938,6 +2939,7 @@ local enumEntryName = {
         [6] = "LEAF_MODE_INSPECTION",
         [7] = "LEAF_MODE_REFINED_TUNING_ONLINE",
         [8] = "LEAF_MODE_REFINED_TUNING_OFFLINE",
+        [9] = "LEAF_MODE_REFINED_TUNING_OUTER",
     },
     ["LEAF_STATUS"] = {
         [0] = "LEAF_STATUS_READY_TO_LEARN",
@@ -12845,6 +12847,11 @@ f.LEAF_INSPECTION_OPTION_option = ProtoField.new("option (LEAF_INSPECTION_OPTION
 
 f.LEAF_SET_INSPECTION_OPTION_target_system = ProtoField.new("target_system (uint8_t)", "mavlink_proto.LEAF_SET_INSPECTION_OPTION_target_system", ftypes.UINT8, nil)
 f.LEAF_SET_INSPECTION_OPTION_option = ProtoField.new("option (LEAF_INSPECTION_OPTION)", "mavlink_proto.LEAF_SET_INSPECTION_OPTION_option", ftypes.UINT8, enumEntryName.LEAF_INSPECTION_OPTION)
+
+f.LEAF_HEARTBEAT_status = ProtoField.new("status (LEAF_STATUS)", "mavlink_proto.LEAF_HEARTBEAT_status", ftypes.UINT8, enumEntryName.LEAF_STATUS)
+f.LEAF_HEARTBEAT_mode = ProtoField.new("mode (LEAF_MODE)", "mavlink_proto.LEAF_HEARTBEAT_mode", ftypes.UINT8, enumEntryName.LEAF_MODE)
+f.LEAF_HEARTBEAT_profile = ProtoField.new("profile (char)", "mavlink_proto.LEAF_HEARTBEAT_profile", ftypes.STRING, nil)
+f.LEAF_HEARTBEAT_version = ProtoField.new("version (char)", "mavlink_proto.LEAF_HEARTBEAT_version", ftypes.STRING, nil)
 
 -- dissect flag field
 function dissect_flags_LIMIT_MODULE(tree, name, tvbrange, value)
@@ -66613,6 +66620,25 @@ function payload_fns.payload_77021(buffer, tree, msgid, offset, limit, pinfo)
     subtree = tree:add_le(f.LEAF_SET_INSPECTION_OPTION_target_system, tvbrange)
     tvbrange = padded(offset + 1, 1)
     subtree = tree:add_le(f.LEAF_SET_INSPECTION_OPTION_option, tvbrange)
+end
+-- dissect payload of message type LEAF_HEARTBEAT
+function payload_fns.payload_77022(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 130 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 130)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 0, 1)
+    subtree = tree:add_le(f.LEAF_HEARTBEAT_status, tvbrange)
+    tvbrange = padded(offset + 1, 1)
+    subtree = tree:add_le(f.LEAF_HEARTBEAT_mode, tvbrange)
+    tvbrange = padded(offset + 2, 64)
+    subtree = tree:add_le(f.LEAF_HEARTBEAT_profile, tvbrange)
+    tvbrange = padded(offset + 66, 64)
+    subtree = tree:add_le(f.LEAF_HEARTBEAT_version, tvbrange)
 end
 -- dissector function
 function mavlink_proto.dissector(buffer,pinfo,tree)
