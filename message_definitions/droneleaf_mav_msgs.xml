@@ -83,35 +83,35 @@
       <entry value="11" name="LEAF_STATUS_INSPECTION_READY">
         <description>Leaf is ready to perform inspection</description>
       </entry>
-      <entry value="12" name="LEAF_STATUS_GOING_TO_SLAP_1">
-        <description>Leaf is heading to slap 1</description>
+      <entry value="12" name="LEAF_STATUS_GOING_TO_NORTH_FACE">
+        <description>Leaf is heading to north face</description>
       </entry>
-      <entry value="13" name="LEAF_STATUS_GOING_TO_SLAP_2">
-        <description>Leaf is heading to slap 2</description>
+      <entry value="13" name="LEAF_STATUS_GOING_TO_SOUTH_FACE">
+        <description>Leaf is heading to south face</description>
       </entry>
-      <entry value="14" name="LEAF_STATUS_INSPECTING_SLAP_1">
-        <description>Leaf is performing inspection on slap 1</description>
+      <entry value="14" name="LEAF_STATUS_INSPECTING_NORTH_FACE">
+        <description>Leaf is performing inspection on north face</description>
       </entry>
-      <entry value="15" name="LEAF_STATUS_INSPECTING_SLAP_2">
-        <description>Leaf is performing inspection on slap 2</description>
+      <entry value="15" name="LEAF_STATUS_INSPECTING_SOUTH_FACE">
+        <description>Leaf is performing inspection on south face</description>
       </entry>
-      <entry value="16" name="LEAF_STATUS_INSPECTING_SLAP_1_FINISHED">
-        <description>Leaf has finished inspection on slap 1</description>
+      <entry value="16" name="LEAF_STATUS_INSPECTION_NORTH_FACE_FINISHED">
+        <description>Leaf has finished inspection on north face</description>
       </entry>
-      <entry value="17" name="LEAF_STATUS_INSPECTING_SLAP_2_FINISHED">
-        <description>Leaf has finished inspection on slap 2</description>
+      <entry value="17" name="LEAF_STATUS_INSPECTION_SOUTH_FACE_FINISHED">
+        <description>Leaf has finished inspection on south face</description>
       </entry>
-      <entry value="18" name="LEAF_STATUS_INSPECTING_FINISHED">
+      <entry value="18" name="LEAF_STATUS_INSPECTION_FINISHED">
         <description>Leaf has finished inspection</description>
       </entry>
-      <entry value="19" name="LEAF_STATUS_INSPECTING_ABORTED">
+      <entry value="19" name="LEAF_STATUS_INSPECTION_ABORTED">
         <description>Leaf has aborted inspection</description>
       </entry>
-      <entry value="20" name="LEAF_STATUS_INSPECTING_PAUSED">
-        <description>Leaf has paused inspection</description>
+      <entry value="20" name="LEAF_STATUS_MISSION_PAUSED">
+        <description>Leaf has paused the mission</description>
       </entry>
-      <entry value="21" name="LEAF_STATUS_RETURNING_TO_HOME">
-        <description>Leaf is heading to home</description>
+      <entry value="21" name="LEAF_STATUS_RETURNING_TO_BASE">
+        <description>Leaf is heading to base</description>
       </entry>
     </enum>
     <enum name="LEAF_CONTROL_COMMAND">

@@ -10,7 +10,7 @@
     #error Wrong include order: MAVLINK_DRONELEAF_MAV_MSGS.H MUST NOT BE DIRECTLY USED. Include mavlink.h from the same directory instead or set ALL AND EVERY defines from MAVLINK.H manually accordingly, including the #define MAVLINK_H call.
 #endif
 
-#define MAVLINK_DRONELEAF_MAV_MSGS_XML_HASH 8379561249736227146
+#define MAVLINK_DRONELEAF_MAV_MSGS_XML_HASH 9150447367231919845
 
 #ifdef __cplusplus
 extern "C" {
@@ -81,16 +81,16 @@ typedef enum LEAF_STATUS
    LEAF_STATUS_DISARMED=9, /* Leaf is disarmed | */
    LEAF_STATUS_NOT_READY=10, /* Leaf is not ready to fly yet | */
    LEAF_STATUS_INSPECTION_READY=11, /* Leaf is ready to perform inspection | */
-   LEAF_STATUS_GOING_TO_SLAP_1=12, /* Leaf is heading to slap 1 | */
-   LEAF_STATUS_GOING_TO_SLAP_2=13, /* Leaf is heading to slap 2 | */
-   LEAF_STATUS_INSPECTING_SLAP_1=14, /* Leaf is performing inspection on slap 1 | */
-   LEAF_STATUS_INSPECTING_SLAP_2=15, /* Leaf is performing inspection on slap 2 | */
-   LEAF_STATUS_INSPECTING_SLAP_1_FINISHED=16, /* Leaf has finished inspection on slap 1 | */
-   LEAF_STATUS_INSPECTING_SLAP_2_FINISHED=17, /* Leaf has finished inspection on slap 2 | */
-   LEAF_STATUS_INSPECTING_FINISHED=18, /* Leaf has finished inspection | */
-   LEAF_STATUS_INSPECTING_ABORTED=19, /* Leaf has aborted inspection | */
-   LEAF_STATUS_INSPECTING_PAUSED=20, /* Leaf has paused inspection | */
-   LEAF_STATUS_RETURNING_TO_HOME=21, /* Leaf is heading to home | */
+   LEAF_STATUS_GOING_TO_NORTH_FACE=12, /* Leaf is heading to north face | */
+   LEAF_STATUS_GOING_TO_SOUTH_FACE=13, /* Leaf is heading to south face | */
+   LEAF_STATUS_INSPECTING_NORTH_FACE=14, /* Leaf is performing inspection on north face | */
+   LEAF_STATUS_INSPECTING_SOUTH_FACE=15, /* Leaf is performing inspection on south face | */
+   LEAF_STATUS_INSPECTION_NORTH_FACE_FINISHED=16, /* Leaf has finished inspection on north face | */
+   LEAF_STATUS_INSPECTION_SOUTH_FACE_FINISHED=17, /* Leaf has finished inspection on south face | */
+   LEAF_STATUS_INSPECTION_FINISHED=18, /* Leaf has finished inspection | */
+   LEAF_STATUS_INSPECTION_ABORTED=19, /* Leaf has aborted inspection | */
+   LEAF_STATUS_MISSION_PAUSED=20, /* Leaf has paused the mission | */
+   LEAF_STATUS_RETURNING_TO_BASE=21, /* Leaf is heading to base | */
    LEAF_STATUS_ENUM_END=22, /*  | */
 } LEAF_STATUS;
 #endif
