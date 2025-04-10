@@ -237,5 +237,12 @@
       <field type="char[64]" name="profile">The profile of the system</field>
       <field type="char[64]" name="version">The version of the system</field>
     </message>
+    <message id="77023" name="LEAF_HEARTBEAT_EXT">
+      <description>The heartbeat message extension</description>
+      <field type="uint8_t" name="status" enum="LEAF_STATUS">The status of the system</field>
+      <field type="uint8_t" name="mode" enum="LEAF_MODE">The mode of the system</field>
+      <field type="char[64]" name="profile">The profile of the system</field>
+      <field type="char[64]" name="version">The version of the system</field>
+    </message>
   </messages>
 </mavlink>
