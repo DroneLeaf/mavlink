@@ -16,7 +16,7 @@ from builtins import object, range
 from typing import Any, Callable, Dict, Iterable, List, Mapping, Optional, Sequence, Tuple, Type, Union, cast
 
 WIRE_PROTOCOL_VERSION = "2.0"
-DIALECT = "pymavlink"
+DIALECT = "."
 
 PROTOCOL_MARKER_V1 = 0xFE
 PROTOCOL_MARKER_V2 = 0xFD
