@@ -8,11 +8,11 @@ on: [push, pull_request]
 jobs:
   build:
 
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false  # don't cancel if a job from the matrix fails
       matrix:
-        python-version: ['3.6', '3.7', '3.8', '3.9', '3.10', '3.11', '3.12']
+        python-version: ['3.7', '3.8', '3.9', '3.10', '3.11', '3.12']
 
     steps:
       - uses: actions/checkout@v3
@@ -58,17 +58,12 @@ jobs:
 
       - name: Install pymavlink
         run: |
-          python setup.py build install
+          python3 -m pip install .
 
       - name: Lint generated python code
         run: |
-          if [ "${{ matrix.python-version }}" = "3.5" ]
-          then
-            flake8 --ignore='W503,E203,E501,E741' --statistics dialects/v10/python2/*.py dialects/v20/python2/*.py
-          else
             flake8 --ignore='W503,E203,E501,E741' --statistics dialects/
             mypy --config-file ./.github/workflows/mypy-generated.ini dialects/v10/*.py dialects/v20/*.py
-          fi
 
       - name: Generate messages
         run: |
@@ -88,7 +83,7 @@ jobs:
 
   node-tests:
     name: Node ${{ matrix.node-version }} test
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
