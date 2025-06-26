@@ -7940,6 +7940,8 @@ MAVLINK_MSG_ID_LEAF_ACK_QUEUE_EXTERNAL_TRAJECTORY = 77024
 MAVLINK_MSG_ID_LEAF_EXTERNAL_TRAJECTORY_SETPOINT_ENU = 77025
 MAVLINK_MSG_ID_LEAF_DO_TERMINATE_EXTERNAL_TRAJECTORY = 77026
 MAVLINK_MSG_ID_LEAF_ACK_TERMINATE_EXTERNAL_TRAJECTORY = 77027
+MAVLINK_MSG_ID_LEAF_EXTERNAL_TRAJECTORY_OFFSET_ENU_POS = 77028
+MAVLINK_MSG_ID_LEAF_EXTERNAL_TRAJECTORY_OFFSET_ENU_ORI = 77029
 
 
 class MAVLink_sensor_offsets_message(MAVLink_message):
@@ -25700,31 +25702,32 @@ class MAVLink_leaf_do_queue_external_trajectory_message(MAVLink_message):
 
     id = MAVLINK_MSG_ID_LEAF_DO_QUEUE_EXTERNAL_TRAJECTORY
     msgname = "LEAF_DO_QUEUE_EXTERNAL_TRAJECTORY"
-    fieldnames = ["target_system", "queue"]
-    ordered_fieldnames = ["target_system", "queue"]
-    fieldtypes = ["uint8_t", "uint8_t"]
+    fieldnames = ["target_system", "queue", "traj_id"]
+    ordered_fieldnames = ["target_system", "queue", "traj_id"]
+    fieldtypes = ["uint8_t", "uint8_t", "uint8_t"]
     fielddisplays_by_name: Dict[str, str] = {}
     fieldenums_by_name: Dict[str, str] = {}
     fieldunits_by_name: Dict[str, str] = {}
-    native_format = bytearray(b"<BB")
-    orders = [0, 1]
-    lengths = [1, 1]
-    array_lengths = [0, 0]
-    crc_extra = 153
-    unpacker = struct.Struct("<BB")
+    native_format = bytearray(b"<BBB")
+    orders = [0, 1, 2]
+    lengths = [1, 1, 1]
+    array_lengths = [0, 0, 0]
+    crc_extra = 248
+    unpacker = struct.Struct("<BBB")
     instance_field = None
     instance_offset = -1
 
-    def __init__(self, target_system: int, queue: int):
+    def __init__(self, target_system: int, queue: int, traj_id: int):
         MAVLink_message.__init__(self, MAVLink_leaf_do_queue_external_trajectory_message.id, MAVLink_leaf_do_queue_external_trajectory_message.msgname)
         self._fieldnames = MAVLink_leaf_do_queue_external_trajectory_message.fieldnames
         self._instance_field = MAVLink_leaf_do_queue_external_trajectory_message.instance_field
         self._instance_offset = MAVLink_leaf_do_queue_external_trajectory_message.instance_offset
         self.target_system = target_system
         self.queue = queue
+        self.traj_id = traj_id
 
     def pack(self, mav: "MAVLink", force_mavlink1: bool = False) -> bytes:
-        return self._pack(mav, self.crc_extra, self.unpacker.pack(self.target_system, self.queue), force_mavlink1=force_mavlink1)
+        return self._pack(mav, self.crc_extra, self.unpacker.pack(self.target_system, self.queue, self.traj_id), force_mavlink1=force_mavlink1)
 
 
 # Define name on the class for backwards compatibility (it is now msgname).
@@ -25739,31 +25742,32 @@ class MAVLink_leaf_ack_queue_external_trajectory_message(MAVLink_message):
 
     id = MAVLINK_MSG_ID_LEAF_ACK_QUEUE_EXTERNAL_TRAJECTORY
     msgname = "LEAF_ACK_QUEUE_EXTERNAL_TRAJECTORY"
-    fieldnames = ["target_system", "status"]
-    ordered_fieldnames = ["target_system", "status"]
-    fieldtypes = ["uint8_t", "uint8_t"]
+    fieldnames = ["target_system", "status", "traj_id"]
+    ordered_fieldnames = ["target_system", "status", "traj_id"]
+    fieldtypes = ["uint8_t", "uint8_t", "uint8_t"]
     fielddisplays_by_name: Dict[str, str] = {}
     fieldenums_by_name: Dict[str, str] = {}
     fieldunits_by_name: Dict[str, str] = {}
-    native_format = bytearray(b"<BB")
-    orders = [0, 1]
-    lengths = [1, 1]
-    array_lengths = [0, 0]
-    crc_extra = 159
-    unpacker = struct.Struct("<BB")
+    native_format = bytearray(b"<BBB")
+    orders = [0, 1, 2]
+    lengths = [1, 1, 1]
+    array_lengths = [0, 0, 0]
+    crc_extra = 14
+    unpacker = struct.Struct("<BBB")
     instance_field = None
     instance_offset = -1
 
-    def __init__(self, target_system: int, status: int):
+    def __init__(self, target_system: int, status: int, traj_id: int):
         MAVLink_message.__init__(self, MAVLink_leaf_ack_queue_external_trajectory_message.id, MAVLink_leaf_ack_queue_external_trajectory_message.msgname)
         self._fieldnames = MAVLink_leaf_ack_queue_external_trajectory_message.fieldnames
         self._instance_field = MAVLink_leaf_ack_queue_external_trajectory_message.instance_field
         self._instance_offset = MAVLink_leaf_ack_queue_external_trajectory_message.instance_offset
         self.target_system = target_system
         self.status = status
+        self.traj_id = traj_id
 
     def pack(self, mav: "MAVLink", force_mavlink1: bool = False) -> bytes:
-        return self._pack(mav, self.crc_extra, self.unpacker.pack(self.target_system, self.status), force_mavlink1=force_mavlink1)
+        return self._pack(mav, self.crc_extra, self.unpacker.pack(self.target_system, self.status, self.traj_id), force_mavlink1=force_mavlink1)
 
 
 # Define name on the class for backwards compatibility (it is now msgname).
@@ -25827,31 +25831,32 @@ class MAVLink_leaf_do_terminate_external_trajectory_message(MAVLink_message):
 
     id = MAVLINK_MSG_ID_LEAF_DO_TERMINATE_EXTERNAL_TRAJECTORY
     msgname = "LEAF_DO_TERMINATE_EXTERNAL_TRAJECTORY"
-    fieldnames = ["target_system", "status"]
-    ordered_fieldnames = ["target_system", "status"]
-    fieldtypes = ["uint8_t", "uint8_t"]
+    fieldnames = ["target_system", "status", "traj_id"]
+    ordered_fieldnames = ["target_system", "status", "traj_id"]
+    fieldtypes = ["uint8_t", "uint8_t", "uint8_t"]
     fielddisplays_by_name: Dict[str, str] = {}
     fieldenums_by_name: Dict[str, str] = {}
     fieldunits_by_name: Dict[str, str] = {}
-    native_format = bytearray(b"<BB")
-    orders = [0, 1]
-    lengths = [1, 1]
-    array_lengths = [0, 0]
-    crc_extra = 176
-    unpacker = struct.Struct("<BB")
+    native_format = bytearray(b"<BBB")
+    orders = [0, 1, 2]
+    lengths = [1, 1, 1]
+    array_lengths = [0, 0, 0]
+    crc_extra = 90
+    unpacker = struct.Struct("<BBB")
     instance_field = None
     instance_offset = -1
 
-    def __init__(self, target_system: int, status: int):
+    def __init__(self, target_system: int, status: int, traj_id: int):
         MAVLink_message.__init__(self, MAVLink_leaf_do_terminate_external_trajectory_message.id, MAVLink_leaf_do_terminate_external_trajectory_message.msgname)
         self._fieldnames = MAVLink_leaf_do_terminate_external_trajectory_message.fieldnames
         self._instance_field = MAVLink_leaf_do_terminate_external_trajectory_message.instance_field
         self._instance_offset = MAVLink_leaf_do_terminate_external_trajectory_message.instance_offset
         self.target_system = target_system
         self.status = status
+        self.traj_id = traj_id
 
     def pack(self, mav: "MAVLink", force_mavlink1: bool = False) -> bytes:
-        return self._pack(mav, self.crc_extra, self.unpacker.pack(self.target_system, self.status), force_mavlink1=force_mavlink1)
+        return self._pack(mav, self.crc_extra, self.unpacker.pack(self.target_system, self.status, self.traj_id), force_mavlink1=force_mavlink1)
 
 
 # Define name on the class for backwards compatibility (it is now msgname).
@@ -25866,36 +25871,117 @@ class MAVLink_leaf_ack_terminate_external_trajectory_message(MAVLink_message):
 
     id = MAVLINK_MSG_ID_LEAF_ACK_TERMINATE_EXTERNAL_TRAJECTORY
     msgname = "LEAF_ACK_TERMINATE_EXTERNAL_TRAJECTORY"
-    fieldnames = ["target_system", "status"]
-    ordered_fieldnames = ["target_system", "status"]
-    fieldtypes = ["uint8_t", "uint8_t"]
+    fieldnames = ["target_system", "status", "traj_id"]
+    ordered_fieldnames = ["target_system", "status", "traj_id"]
+    fieldtypes = ["uint8_t", "uint8_t", "uint8_t"]
     fielddisplays_by_name: Dict[str, str] = {}
     fieldenums_by_name: Dict[str, str] = {}
     fieldunits_by_name: Dict[str, str] = {}
-    native_format = bytearray(b"<BB")
-    orders = [0, 1]
-    lengths = [1, 1]
-    array_lengths = [0, 0]
-    crc_extra = 97
-    unpacker = struct.Struct("<BB")
+    native_format = bytearray(b"<BBB")
+    orders = [0, 1, 2]
+    lengths = [1, 1, 1]
+    array_lengths = [0, 0, 0]
+    crc_extra = 33
+    unpacker = struct.Struct("<BBB")
     instance_field = None
     instance_offset = -1
 
-    def __init__(self, target_system: int, status: int):
+    def __init__(self, target_system: int, status: int, traj_id: int):
         MAVLink_message.__init__(self, MAVLink_leaf_ack_terminate_external_trajectory_message.id, MAVLink_leaf_ack_terminate_external_trajectory_message.msgname)
         self._fieldnames = MAVLink_leaf_ack_terminate_external_trajectory_message.fieldnames
         self._instance_field = MAVLink_leaf_ack_terminate_external_trajectory_message.instance_field
         self._instance_offset = MAVLink_leaf_ack_terminate_external_trajectory_message.instance_offset
         self.target_system = target_system
         self.status = status
+        self.traj_id = traj_id
 
     def pack(self, mav: "MAVLink", force_mavlink1: bool = False) -> bytes:
-        return self._pack(mav, self.crc_extra, self.unpacker.pack(self.target_system, self.status), force_mavlink1=force_mavlink1)
+        return self._pack(mav, self.crc_extra, self.unpacker.pack(self.target_system, self.status, self.traj_id), force_mavlink1=force_mavlink1)
 
 
 # Define name on the class for backwards compatibility (it is now msgname).
 # Done with setattr to hide the class variable from mypy.
 setattr(MAVLink_leaf_ack_terminate_external_trajectory_message, "name", mavlink_msg_deprecated_name_property())
+
+
+class MAVLink_leaf_external_trajectory_offset_enu_pos_message(MAVLink_message):
+    """
+    Stores the last positional offset value in ENU frame.
+    """
+
+    id = MAVLINK_MSG_ID_LEAF_EXTERNAL_TRAJECTORY_OFFSET_ENU_POS
+    msgname = "LEAF_EXTERNAL_TRAJECTORY_OFFSET_ENU_POS"
+    fieldnames = ["x", "y", "z"]
+    ordered_fieldnames = ["x", "y", "z"]
+    fieldtypes = ["float", "float", "float"]
+    fielddisplays_by_name: Dict[str, str] = {}
+    fieldenums_by_name: Dict[str, str] = {}
+    fieldunits_by_name: Dict[str, str] = {"x": "m", "y": "m", "z": "m"}
+    native_format = bytearray(b"<fff")
+    orders = [0, 1, 2]
+    lengths = [1, 1, 1]
+    array_lengths = [0, 0, 0]
+    crc_extra = 90
+    unpacker = struct.Struct("<fff")
+    instance_field = None
+    instance_offset = -1
+
+    def __init__(self, x: float, y: float, z: float):
+        MAVLink_message.__init__(self, MAVLink_leaf_external_trajectory_offset_enu_pos_message.id, MAVLink_leaf_external_trajectory_offset_enu_pos_message.msgname)
+        self._fieldnames = MAVLink_leaf_external_trajectory_offset_enu_pos_message.fieldnames
+        self._instance_field = MAVLink_leaf_external_trajectory_offset_enu_pos_message.instance_field
+        self._instance_offset = MAVLink_leaf_external_trajectory_offset_enu_pos_message.instance_offset
+        self.x = x
+        self.y = y
+        self.z = z
+
+    def pack(self, mav: "MAVLink", force_mavlink1: bool = False) -> bytes:
+        return self._pack(mav, self.crc_extra, self.unpacker.pack(self.x, self.y, self.z), force_mavlink1=force_mavlink1)
+
+
+# Define name on the class for backwards compatibility (it is now msgname).
+# Done with setattr to hide the class variable from mypy.
+setattr(MAVLink_leaf_external_trajectory_offset_enu_pos_message, "name", mavlink_msg_deprecated_name_property())
+
+
+class MAVLink_leaf_external_trajectory_offset_enu_ori_message(MAVLink_message):
+    """
+    Stores the last orientational offset value in ENU frame.
+    """
+
+    id = MAVLINK_MSG_ID_LEAF_EXTERNAL_TRAJECTORY_OFFSET_ENU_ORI
+    msgname = "LEAF_EXTERNAL_TRAJECTORY_OFFSET_ENU_ORI"
+    fieldnames = ["x", "y", "z"]
+    ordered_fieldnames = ["x", "y", "z"]
+    fieldtypes = ["float", "float", "float"]
+    fielddisplays_by_name: Dict[str, str] = {}
+    fieldenums_by_name: Dict[str, str] = {}
+    fieldunits_by_name: Dict[str, str] = {"x": "rad", "y": "rad", "z": "rad"}
+    native_format = bytearray(b"<fff")
+    orders = [0, 1, 2]
+    lengths = [1, 1, 1]
+    array_lengths = [0, 0, 0]
+    crc_extra = 150
+    unpacker = struct.Struct("<fff")
+    instance_field = None
+    instance_offset = -1
+
+    def __init__(self, x: float, y: float, z: float):
+        MAVLink_message.__init__(self, MAVLink_leaf_external_trajectory_offset_enu_ori_message.id, MAVLink_leaf_external_trajectory_offset_enu_ori_message.msgname)
+        self._fieldnames = MAVLink_leaf_external_trajectory_offset_enu_ori_message.fieldnames
+        self._instance_field = MAVLink_leaf_external_trajectory_offset_enu_ori_message.instance_field
+        self._instance_offset = MAVLink_leaf_external_trajectory_offset_enu_ori_message.instance_offset
+        self.x = x
+        self.y = y
+        self.z = z
+
+    def pack(self, mav: "MAVLink", force_mavlink1: bool = False) -> bytes:
+        return self._pack(mav, self.crc_extra, self.unpacker.pack(self.x, self.y, self.z), force_mavlink1=force_mavlink1)
+
+
+# Define name on the class for backwards compatibility (it is now msgname).
+# Done with setattr to hide the class variable from mypy.
+setattr(MAVLink_leaf_external_trajectory_offset_enu_ori_message, "name", mavlink_msg_deprecated_name_property())
 
 
 mavlink_map: Dict[int, Type[MAVLink_message]] = {
@@ -26288,6 +26374,8 @@ mavlink_map: Dict[int, Type[MAVLink_message]] = {
     MAVLINK_MSG_ID_LEAF_EXTERNAL_TRAJECTORY_SETPOINT_ENU: MAVLink_leaf_external_trajectory_setpoint_enu_message,
     MAVLINK_MSG_ID_LEAF_DO_TERMINATE_EXTERNAL_TRAJECTORY: MAVLink_leaf_do_terminate_external_trajectory_message,
     MAVLINK_MSG_ID_LEAF_ACK_TERMINATE_EXTERNAL_TRAJECTORY: MAVLink_leaf_ack_terminate_external_trajectory_message,
+    MAVLINK_MSG_ID_LEAF_EXTERNAL_TRAJECTORY_OFFSET_ENU_POS: MAVLink_leaf_external_trajectory_offset_enu_pos_message,
+    MAVLINK_MSG_ID_LEAF_EXTERNAL_TRAJECTORY_OFFSET_ENU_ORI: MAVLink_leaf_external_trajectory_offset_enu_ori_message,
 }
 
 
@@ -39849,45 +39937,49 @@ class MAVLink(object):
         """
         self.send(self.leaf_heartbeat_encode(status, mode, profile, version), force_mavlink1=force_mavlink1)
 
-    def leaf_do_queue_external_trajectory_encode(self, target_system: int, queue: int) -> MAVLink_leaf_do_queue_external_trajectory_message:
+    def leaf_do_queue_external_trajectory_encode(self, target_system: int, queue: int, traj_id: int) -> MAVLink_leaf_do_queue_external_trajectory_message:
         """
         Commands the leaf to queue the external trajectory primitive.
 
         target_system             : The system needs to queue the trajectory (type:uint8_t)
         queue                     : 1 to queue, 0 to not (type:uint8_t)
+        traj_id                   : 0 for pos, 1 for ori (type:uint8_t)
 
         """
-        return MAVLink_leaf_do_queue_external_trajectory_message(target_system, queue)
+        return MAVLink_leaf_do_queue_external_trajectory_message(target_system, queue, traj_id)
 
-    def leaf_do_queue_external_trajectory_send(self, target_system: int, queue: int, force_mavlink1: bool = False) -> None:
+    def leaf_do_queue_external_trajectory_send(self, target_system: int, queue: int, traj_id: int, force_mavlink1: bool = False) -> None:
         """
         Commands the leaf to queue the external trajectory primitive.
 
         target_system             : The system needs to queue the trajectory (type:uint8_t)
         queue                     : 1 to queue, 0 to not (type:uint8_t)
+        traj_id                   : 0 for pos, 1 for ori (type:uint8_t)
 
         """
-        self.send(self.leaf_do_queue_external_trajectory_encode(target_system, queue), force_mavlink1=force_mavlink1)
+        self.send(self.leaf_do_queue_external_trajectory_encode(target_system, queue, traj_id), force_mavlink1=force_mavlink1)
 
-    def leaf_ack_queue_external_trajectory_encode(self, target_system: int, status: int) -> MAVLink_leaf_ack_queue_external_trajectory_message:
-        """
-        Acknowledges that the external trajectory primitive is queued.
-
-        target_system             : The system needs to queue the trajectory (type:uint8_t)
-        status                    : 1 for ack, 0 for nack (type:uint8_t)
-
-        """
-        return MAVLink_leaf_ack_queue_external_trajectory_message(target_system, status)
-
-    def leaf_ack_queue_external_trajectory_send(self, target_system: int, status: int, force_mavlink1: bool = False) -> None:
+    def leaf_ack_queue_external_trajectory_encode(self, target_system: int, status: int, traj_id: int) -> MAVLink_leaf_ack_queue_external_trajectory_message:
         """
         Acknowledges that the external trajectory primitive is queued.
 
         target_system             : The system needs to queue the trajectory (type:uint8_t)
         status                    : 1 for ack, 0 for nack (type:uint8_t)
+        traj_id                   : 0 for pos, 1 for ori (type:uint8_t)
 
         """
-        self.send(self.leaf_ack_queue_external_trajectory_encode(target_system, status), force_mavlink1=force_mavlink1)
+        return MAVLink_leaf_ack_queue_external_trajectory_message(target_system, status, traj_id)
+
+    def leaf_ack_queue_external_trajectory_send(self, target_system: int, status: int, traj_id: int, force_mavlink1: bool = False) -> None:
+        """
+        Acknowledges that the external trajectory primitive is queued.
+
+        target_system             : The system needs to queue the trajectory (type:uint8_t)
+        status                    : 1 for ack, 0 for nack (type:uint8_t)
+        traj_id                   : 0 for pos, 1 for ori (type:uint8_t)
+
+        """
+        self.send(self.leaf_ack_queue_external_trajectory_encode(target_system, status, traj_id), force_mavlink1=force_mavlink1)
 
     def leaf_external_trajectory_setpoint_enu_encode(self, x: float, y: float, z: float, vx: float, vy: float, vz: float, afx: float, afy: float, afz: float, yaw: float, yaw_rate: float) -> MAVLink_leaf_external_trajectory_setpoint_enu_message:
         """
@@ -39929,42 +40021,90 @@ class MAVLink(object):
         """
         self.send(self.leaf_external_trajectory_setpoint_enu_encode(x, y, z, vx, vy, vz, afx, afy, afz, yaw, yaw_rate), force_mavlink1=force_mavlink1)
 
-    def leaf_do_terminate_external_trajectory_encode(self, target_system: int, status: int) -> MAVLink_leaf_do_terminate_external_trajectory_message:
+    def leaf_do_terminate_external_trajectory_encode(self, target_system: int, status: int, traj_id: int) -> MAVLink_leaf_do_terminate_external_trajectory_message:
         """
         Terminates the external trajectory is completed.
 
         target_system             : The system needs to queue the trajectory (type:uint8_t)
         status                    : 1 for terminate, 0 for not (type:uint8_t)
+        traj_id                   : 0 for pos, 1 for ori (type:uint8_t)
 
         """
-        return MAVLink_leaf_do_terminate_external_trajectory_message(target_system, status)
+        return MAVLink_leaf_do_terminate_external_trajectory_message(target_system, status, traj_id)
 
-    def leaf_do_terminate_external_trajectory_send(self, target_system: int, status: int, force_mavlink1: bool = False) -> None:
+    def leaf_do_terminate_external_trajectory_send(self, target_system: int, status: int, traj_id: int, force_mavlink1: bool = False) -> None:
         """
         Terminates the external trajectory is completed.
 
         target_system             : The system needs to queue the trajectory (type:uint8_t)
         status                    : 1 for terminate, 0 for not (type:uint8_t)
+        traj_id                   : 0 for pos, 1 for ori (type:uint8_t)
 
         """
-        self.send(self.leaf_do_terminate_external_trajectory_encode(target_system, status), force_mavlink1=force_mavlink1)
+        self.send(self.leaf_do_terminate_external_trajectory_encode(target_system, status, traj_id), force_mavlink1=force_mavlink1)
 
-    def leaf_ack_terminate_external_trajectory_encode(self, target_system: int, status: int) -> MAVLink_leaf_ack_terminate_external_trajectory_message:
-        """
-        Acknowledges that the external trajectory is completed.
-
-        target_system             : The system needs to queue the trajectory (type:uint8_t)
-        status                    : 1 for ack, 0 for nack (type:uint8_t)
-
-        """
-        return MAVLink_leaf_ack_terminate_external_trajectory_message(target_system, status)
-
-    def leaf_ack_terminate_external_trajectory_send(self, target_system: int, status: int, force_mavlink1: bool = False) -> None:
+    def leaf_ack_terminate_external_trajectory_encode(self, target_system: int, status: int, traj_id: int) -> MAVLink_leaf_ack_terminate_external_trajectory_message:
         """
         Acknowledges that the external trajectory is completed.
 
         target_system             : The system needs to queue the trajectory (type:uint8_t)
         status                    : 1 for ack, 0 for nack (type:uint8_t)
+        traj_id                   : 0 for pos, 1 for ori (type:uint8_t)
 
         """
-        self.send(self.leaf_ack_terminate_external_trajectory_encode(target_system, status), force_mavlink1=force_mavlink1)
+        return MAVLink_leaf_ack_terminate_external_trajectory_message(target_system, status, traj_id)
+
+    def leaf_ack_terminate_external_trajectory_send(self, target_system: int, status: int, traj_id: int, force_mavlink1: bool = False) -> None:
+        """
+        Acknowledges that the external trajectory is completed.
+
+        target_system             : The system needs to queue the trajectory (type:uint8_t)
+        status                    : 1 for ack, 0 for nack (type:uint8_t)
+        traj_id                   : 0 for pos, 1 for ori (type:uint8_t)
+
+        """
+        self.send(self.leaf_ack_terminate_external_trajectory_encode(target_system, status, traj_id), force_mavlink1=force_mavlink1)
+
+    def leaf_external_trajectory_offset_enu_pos_encode(self, x: float, y: float, z: float) -> MAVLink_leaf_external_trajectory_offset_enu_pos_message:
+        """
+        Stores the last positional offset value in ENU frame.
+
+        x                         : X Position in ENU frame [m] (type:float)
+        y                         : Y Position in ENU frame [m] (type:float)
+        z                         : Z Position in ENU frame [m] (type:float)
+
+        """
+        return MAVLink_leaf_external_trajectory_offset_enu_pos_message(x, y, z)
+
+    def leaf_external_trajectory_offset_enu_pos_send(self, x: float, y: float, z: float, force_mavlink1: bool = False) -> None:
+        """
+        Stores the last positional offset value in ENU frame.
+
+        x                         : X Position in ENU frame [m] (type:float)
+        y                         : Y Position in ENU frame [m] (type:float)
+        z                         : Z Position in ENU frame [m] (type:float)
+
+        """
+        self.send(self.leaf_external_trajectory_offset_enu_pos_encode(x, y, z), force_mavlink1=force_mavlink1)
+
+    def leaf_external_trajectory_offset_enu_ori_encode(self, x: float, y: float, z: float) -> MAVLink_leaf_external_trajectory_offset_enu_ori_message:
+        """
+        Stores the last orientational offset value in ENU frame.
+
+        x                         : X orientation in rad [rad] (type:float)
+        y                         : Y orientation in rad [rad] (type:float)
+        z                         : Z orientation in rad [rad] (type:float)
+
+        """
+        return MAVLink_leaf_external_trajectory_offset_enu_ori_message(x, y, z)
+
+    def leaf_external_trajectory_offset_enu_ori_send(self, x: float, y: float, z: float, force_mavlink1: bool = False) -> None:
+        """
+        Stores the last orientational offset value in ENU frame.
+
+        x                         : X orientation in rad [rad] (type:float)
+        y                         : Y orientation in rad [rad] (type:float)
+        z                         : Z orientation in rad [rad] (type:float)
+
+        """
+        self.send(self.leaf_external_trajectory_offset_enu_ori_encode(x, y, z), force_mavlink1=force_mavlink1)
