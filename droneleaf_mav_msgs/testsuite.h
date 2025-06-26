@@ -1406,21 +1406,21 @@ static void mavlink_test_leaf_do_queue_external_trajectory(uint8_t system_id, ui
 #endif
 }
 
-static void mavlink_test_leaf_ack_queue_external_trajectory(uint8_t system_id, uint8_t component_id, mavlink_message_t *last_msg)
+static void mavlink_test_leaf_ack_queue_external_trajectory_pos(uint8_t system_id, uint8_t component_id, mavlink_message_t *last_msg)
 {
 #ifdef MAVLINK_STATUS_FLAG_OUT_MAVLINK1
     mavlink_status_t *status = mavlink_get_channel_status(MAVLINK_COMM_0);
-        if ((status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) && MAVLINK_MSG_ID_LEAF_ACK_QUEUE_EXTERNAL_TRAJECTORY >= 256) {
+        if ((status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) && MAVLINK_MSG_ID_LEAF_ACK_QUEUE_EXTERNAL_TRAJECTORY_POS >= 256) {
             return;
         }
 #endif
     mavlink_message_t msg;
         uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
         uint16_t i;
-    mavlink_leaf_ack_queue_external_trajectory_t packet_in = {
+    mavlink_leaf_ack_queue_external_trajectory_pos_t packet_in = {
         5,72,139
     };
-    mavlink_leaf_ack_queue_external_trajectory_t packet1, packet2;
+    mavlink_leaf_ack_queue_external_trajectory_pos_t packet1, packet2;
         memset(&packet1, 0, sizeof(packet1));
         packet1.target_system = packet_in.target_system;
         packet1.status = packet_in.status;
@@ -1430,22 +1430,22 @@ static void mavlink_test_leaf_ack_queue_external_trajectory(uint8_t system_id, u
 #ifdef MAVLINK_STATUS_FLAG_OUT_MAVLINK1
         if (status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) {
            // cope with extensions
-           memset(MAVLINK_MSG_ID_LEAF_ACK_QUEUE_EXTERNAL_TRAJECTORY_MIN_LEN + (char *)&packet1, 0, sizeof(packet1)-MAVLINK_MSG_ID_LEAF_ACK_QUEUE_EXTERNAL_TRAJECTORY_MIN_LEN);
+           memset(MAVLINK_MSG_ID_LEAF_ACK_QUEUE_EXTERNAL_TRAJECTORY_POS_MIN_LEN + (char *)&packet1, 0, sizeof(packet1)-MAVLINK_MSG_ID_LEAF_ACK_QUEUE_EXTERNAL_TRAJECTORY_POS_MIN_LEN);
         }
 #endif
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_leaf_ack_queue_external_trajectory_encode(system_id, component_id, &msg, &packet1);
-    mavlink_msg_leaf_ack_queue_external_trajectory_decode(&msg, &packet2);
+    mavlink_msg_leaf_ack_queue_external_trajectory_pos_encode(system_id, component_id, &msg, &packet1);
+    mavlink_msg_leaf_ack_queue_external_trajectory_pos_decode(&msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_leaf_ack_queue_external_trajectory_pack(system_id, component_id, &msg , packet1.target_system , packet1.status , packet1.traj_id );
-    mavlink_msg_leaf_ack_queue_external_trajectory_decode(&msg, &packet2);
+    mavlink_msg_leaf_ack_queue_external_trajectory_pos_pack(system_id, component_id, &msg , packet1.target_system , packet1.status , packet1.traj_id );
+    mavlink_msg_leaf_ack_queue_external_trajectory_pos_decode(&msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_leaf_ack_queue_external_trajectory_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.target_system , packet1.status , packet1.traj_id );
-    mavlink_msg_leaf_ack_queue_external_trajectory_decode(&msg, &packet2);
+    mavlink_msg_leaf_ack_queue_external_trajectory_pos_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.target_system , packet1.status , packet1.traj_id );
+    mavlink_msg_leaf_ack_queue_external_trajectory_pos_decode(&msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
         memset(&packet2, 0, sizeof(packet2));
@@ -1453,17 +1453,78 @@ static void mavlink_test_leaf_ack_queue_external_trajectory(uint8_t system_id, u
         for (i=0; i<mavlink_msg_get_send_buffer_length(&msg); i++) {
             comm_send_ch(MAVLINK_COMM_0, buffer[i]);
         }
-    mavlink_msg_leaf_ack_queue_external_trajectory_decode(last_msg, &packet2);
+    mavlink_msg_leaf_ack_queue_external_trajectory_pos_decode(last_msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
         
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_leaf_ack_queue_external_trajectory_send(MAVLINK_COMM_1 , packet1.target_system , packet1.status , packet1.traj_id );
-    mavlink_msg_leaf_ack_queue_external_trajectory_decode(last_msg, &packet2);
+    mavlink_msg_leaf_ack_queue_external_trajectory_pos_send(MAVLINK_COMM_1 , packet1.target_system , packet1.status , packet1.traj_id );
+    mavlink_msg_leaf_ack_queue_external_trajectory_pos_decode(last_msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
 #ifdef MAVLINK_HAVE_GET_MESSAGE_INFO
-    MAVLINK_ASSERT(mavlink_get_message_info_by_name("LEAF_ACK_QUEUE_EXTERNAL_TRAJECTORY") != NULL);
-    MAVLINK_ASSERT(mavlink_get_message_info_by_id(MAVLINK_MSG_ID_LEAF_ACK_QUEUE_EXTERNAL_TRAJECTORY) != NULL);
+    MAVLINK_ASSERT(mavlink_get_message_info_by_name("LEAF_ACK_QUEUE_EXTERNAL_TRAJECTORY_POS") != NULL);
+    MAVLINK_ASSERT(mavlink_get_message_info_by_id(MAVLINK_MSG_ID_LEAF_ACK_QUEUE_EXTERNAL_TRAJECTORY_POS) != NULL);
+#endif
+}
+
+static void mavlink_test_leaf_ack_queue_external_trajectory_ori(uint8_t system_id, uint8_t component_id, mavlink_message_t *last_msg)
+{
+#ifdef MAVLINK_STATUS_FLAG_OUT_MAVLINK1
+    mavlink_status_t *status = mavlink_get_channel_status(MAVLINK_COMM_0);
+        if ((status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) && MAVLINK_MSG_ID_LEAF_ACK_QUEUE_EXTERNAL_TRAJECTORY_ORI >= 256) {
+            return;
+        }
+#endif
+    mavlink_message_t msg;
+        uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
+        uint16_t i;
+    mavlink_leaf_ack_queue_external_trajectory_ori_t packet_in = {
+        5,72,139
+    };
+    mavlink_leaf_ack_queue_external_trajectory_ori_t packet1, packet2;
+        memset(&packet1, 0, sizeof(packet1));
+        packet1.target_system = packet_in.target_system;
+        packet1.status = packet_in.status;
+        packet1.traj_id = packet_in.traj_id;
+        
+        
+#ifdef MAVLINK_STATUS_FLAG_OUT_MAVLINK1
+        if (status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) {
+           // cope with extensions
+           memset(MAVLINK_MSG_ID_LEAF_ACK_QUEUE_EXTERNAL_TRAJECTORY_ORI_MIN_LEN + (char *)&packet1, 0, sizeof(packet1)-MAVLINK_MSG_ID_LEAF_ACK_QUEUE_EXTERNAL_TRAJECTORY_ORI_MIN_LEN);
+        }
+#endif
+        memset(&packet2, 0, sizeof(packet2));
+    mavlink_msg_leaf_ack_queue_external_trajectory_ori_encode(system_id, component_id, &msg, &packet1);
+    mavlink_msg_leaf_ack_queue_external_trajectory_ori_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+    mavlink_msg_leaf_ack_queue_external_trajectory_ori_pack(system_id, component_id, &msg , packet1.target_system , packet1.status , packet1.traj_id );
+    mavlink_msg_leaf_ack_queue_external_trajectory_ori_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+    mavlink_msg_leaf_ack_queue_external_trajectory_ori_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.target_system , packet1.status , packet1.traj_id );
+    mavlink_msg_leaf_ack_queue_external_trajectory_ori_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+        mavlink_msg_to_send_buffer(buffer, &msg);
+        for (i=0; i<mavlink_msg_get_send_buffer_length(&msg); i++) {
+            comm_send_ch(MAVLINK_COMM_0, buffer[i]);
+        }
+    mavlink_msg_leaf_ack_queue_external_trajectory_ori_decode(last_msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+        
+        memset(&packet2, 0, sizeof(packet2));
+    mavlink_msg_leaf_ack_queue_external_trajectory_ori_send(MAVLINK_COMM_1 , packet1.target_system , packet1.status , packet1.traj_id );
+    mavlink_msg_leaf_ack_queue_external_trajectory_ori_decode(last_msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+#ifdef MAVLINK_HAVE_GET_MESSAGE_INFO
+    MAVLINK_ASSERT(mavlink_get_message_info_by_name("LEAF_ACK_QUEUE_EXTERNAL_TRAJECTORY_ORI") != NULL);
+    MAVLINK_ASSERT(mavlink_get_message_info_by_id(MAVLINK_MSG_ID_LEAF_ACK_QUEUE_EXTERNAL_TRAJECTORY_ORI) != NULL);
 #endif
 }
 
@@ -1597,21 +1658,21 @@ static void mavlink_test_leaf_do_terminate_external_trajectory(uint8_t system_id
 #endif
 }
 
-static void mavlink_test_leaf_ack_terminate_external_trajectory(uint8_t system_id, uint8_t component_id, mavlink_message_t *last_msg)
+static void mavlink_test_leaf_ack_terminate_external_trajectory_pos(uint8_t system_id, uint8_t component_id, mavlink_message_t *last_msg)
 {
 #ifdef MAVLINK_STATUS_FLAG_OUT_MAVLINK1
     mavlink_status_t *status = mavlink_get_channel_status(MAVLINK_COMM_0);
-        if ((status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) && MAVLINK_MSG_ID_LEAF_ACK_TERMINATE_EXTERNAL_TRAJECTORY >= 256) {
+        if ((status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) && MAVLINK_MSG_ID_LEAF_ACK_TERMINATE_EXTERNAL_TRAJECTORY_POS >= 256) {
             return;
         }
 #endif
     mavlink_message_t msg;
         uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
         uint16_t i;
-    mavlink_leaf_ack_terminate_external_trajectory_t packet_in = {
+    mavlink_leaf_ack_terminate_external_trajectory_pos_t packet_in = {
         5,72,139
     };
-    mavlink_leaf_ack_terminate_external_trajectory_t packet1, packet2;
+    mavlink_leaf_ack_terminate_external_trajectory_pos_t packet1, packet2;
         memset(&packet1, 0, sizeof(packet1));
         packet1.target_system = packet_in.target_system;
         packet1.status = packet_in.status;
@@ -1621,22 +1682,22 @@ static void mavlink_test_leaf_ack_terminate_external_trajectory(uint8_t system_i
 #ifdef MAVLINK_STATUS_FLAG_OUT_MAVLINK1
         if (status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) {
            // cope with extensions
-           memset(MAVLINK_MSG_ID_LEAF_ACK_TERMINATE_EXTERNAL_TRAJECTORY_MIN_LEN + (char *)&packet1, 0, sizeof(packet1)-MAVLINK_MSG_ID_LEAF_ACK_TERMINATE_EXTERNAL_TRAJECTORY_MIN_LEN);
+           memset(MAVLINK_MSG_ID_LEAF_ACK_TERMINATE_EXTERNAL_TRAJECTORY_POS_MIN_LEN + (char *)&packet1, 0, sizeof(packet1)-MAVLINK_MSG_ID_LEAF_ACK_TERMINATE_EXTERNAL_TRAJECTORY_POS_MIN_LEN);
         }
 #endif
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_leaf_ack_terminate_external_trajectory_encode(system_id, component_id, &msg, &packet1);
-    mavlink_msg_leaf_ack_terminate_external_trajectory_decode(&msg, &packet2);
+    mavlink_msg_leaf_ack_terminate_external_trajectory_pos_encode(system_id, component_id, &msg, &packet1);
+    mavlink_msg_leaf_ack_terminate_external_trajectory_pos_decode(&msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_leaf_ack_terminate_external_trajectory_pack(system_id, component_id, &msg , packet1.target_system , packet1.status , packet1.traj_id );
-    mavlink_msg_leaf_ack_terminate_external_trajectory_decode(&msg, &packet2);
+    mavlink_msg_leaf_ack_terminate_external_trajectory_pos_pack(system_id, component_id, &msg , packet1.target_system , packet1.status , packet1.traj_id );
+    mavlink_msg_leaf_ack_terminate_external_trajectory_pos_decode(&msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_leaf_ack_terminate_external_trajectory_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.target_system , packet1.status , packet1.traj_id );
-    mavlink_msg_leaf_ack_terminate_external_trajectory_decode(&msg, &packet2);
+    mavlink_msg_leaf_ack_terminate_external_trajectory_pos_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.target_system , packet1.status , packet1.traj_id );
+    mavlink_msg_leaf_ack_terminate_external_trajectory_pos_decode(&msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
         memset(&packet2, 0, sizeof(packet2));
@@ -1644,17 +1705,78 @@ static void mavlink_test_leaf_ack_terminate_external_trajectory(uint8_t system_i
         for (i=0; i<mavlink_msg_get_send_buffer_length(&msg); i++) {
             comm_send_ch(MAVLINK_COMM_0, buffer[i]);
         }
-    mavlink_msg_leaf_ack_terminate_external_trajectory_decode(last_msg, &packet2);
+    mavlink_msg_leaf_ack_terminate_external_trajectory_pos_decode(last_msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
         
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_leaf_ack_terminate_external_trajectory_send(MAVLINK_COMM_1 , packet1.target_system , packet1.status , packet1.traj_id );
-    mavlink_msg_leaf_ack_terminate_external_trajectory_decode(last_msg, &packet2);
+    mavlink_msg_leaf_ack_terminate_external_trajectory_pos_send(MAVLINK_COMM_1 , packet1.target_system , packet1.status , packet1.traj_id );
+    mavlink_msg_leaf_ack_terminate_external_trajectory_pos_decode(last_msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
 #ifdef MAVLINK_HAVE_GET_MESSAGE_INFO
-    MAVLINK_ASSERT(mavlink_get_message_info_by_name("LEAF_ACK_TERMINATE_EXTERNAL_TRAJECTORY") != NULL);
-    MAVLINK_ASSERT(mavlink_get_message_info_by_id(MAVLINK_MSG_ID_LEAF_ACK_TERMINATE_EXTERNAL_TRAJECTORY) != NULL);
+    MAVLINK_ASSERT(mavlink_get_message_info_by_name("LEAF_ACK_TERMINATE_EXTERNAL_TRAJECTORY_POS") != NULL);
+    MAVLINK_ASSERT(mavlink_get_message_info_by_id(MAVLINK_MSG_ID_LEAF_ACK_TERMINATE_EXTERNAL_TRAJECTORY_POS) != NULL);
+#endif
+}
+
+static void mavlink_test_leaf_ack_terminate_external_trajectory_ori(uint8_t system_id, uint8_t component_id, mavlink_message_t *last_msg)
+{
+#ifdef MAVLINK_STATUS_FLAG_OUT_MAVLINK1
+    mavlink_status_t *status = mavlink_get_channel_status(MAVLINK_COMM_0);
+        if ((status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) && MAVLINK_MSG_ID_LEAF_ACK_TERMINATE_EXTERNAL_TRAJECTORY_ORI >= 256) {
+            return;
+        }
+#endif
+    mavlink_message_t msg;
+        uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
+        uint16_t i;
+    mavlink_leaf_ack_terminate_external_trajectory_ori_t packet_in = {
+        5,72,139
+    };
+    mavlink_leaf_ack_terminate_external_trajectory_ori_t packet1, packet2;
+        memset(&packet1, 0, sizeof(packet1));
+        packet1.target_system = packet_in.target_system;
+        packet1.status = packet_in.status;
+        packet1.traj_id = packet_in.traj_id;
+        
+        
+#ifdef MAVLINK_STATUS_FLAG_OUT_MAVLINK1
+        if (status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) {
+           // cope with extensions
+           memset(MAVLINK_MSG_ID_LEAF_ACK_TERMINATE_EXTERNAL_TRAJECTORY_ORI_MIN_LEN + (char *)&packet1, 0, sizeof(packet1)-MAVLINK_MSG_ID_LEAF_ACK_TERMINATE_EXTERNAL_TRAJECTORY_ORI_MIN_LEN);
+        }
+#endif
+        memset(&packet2, 0, sizeof(packet2));
+    mavlink_msg_leaf_ack_terminate_external_trajectory_ori_encode(system_id, component_id, &msg, &packet1);
+    mavlink_msg_leaf_ack_terminate_external_trajectory_ori_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+    mavlink_msg_leaf_ack_terminate_external_trajectory_ori_pack(system_id, component_id, &msg , packet1.target_system , packet1.status , packet1.traj_id );
+    mavlink_msg_leaf_ack_terminate_external_trajectory_ori_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+    mavlink_msg_leaf_ack_terminate_external_trajectory_ori_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.target_system , packet1.status , packet1.traj_id );
+    mavlink_msg_leaf_ack_terminate_external_trajectory_ori_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+        mavlink_msg_to_send_buffer(buffer, &msg);
+        for (i=0; i<mavlink_msg_get_send_buffer_length(&msg); i++) {
+            comm_send_ch(MAVLINK_COMM_0, buffer[i]);
+        }
+    mavlink_msg_leaf_ack_terminate_external_trajectory_ori_decode(last_msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+        
+        memset(&packet2, 0, sizeof(packet2));
+    mavlink_msg_leaf_ack_terminate_external_trajectory_ori_send(MAVLINK_COMM_1 , packet1.target_system , packet1.status , packet1.traj_id );
+    mavlink_msg_leaf_ack_terminate_external_trajectory_ori_decode(last_msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+#ifdef MAVLINK_HAVE_GET_MESSAGE_INFO
+    MAVLINK_ASSERT(mavlink_get_message_info_by_name("LEAF_ACK_TERMINATE_EXTERNAL_TRAJECTORY_ORI") != NULL);
+    MAVLINK_ASSERT(mavlink_get_message_info_by_id(MAVLINK_MSG_ID_LEAF_ACK_TERMINATE_EXTERNAL_TRAJECTORY_ORI) != NULL);
 #endif
 }
 
@@ -1805,10 +1927,12 @@ static void mavlink_test_droneleaf_mav_msgs(uint8_t system_id, uint8_t component
     mavlink_test_leaf_set_inspection_option(system_id, component_id, last_msg);
     mavlink_test_leaf_heartbeat(system_id, component_id, last_msg);
     mavlink_test_leaf_do_queue_external_trajectory(system_id, component_id, last_msg);
-    mavlink_test_leaf_ack_queue_external_trajectory(system_id, component_id, last_msg);
+    mavlink_test_leaf_ack_queue_external_trajectory_pos(system_id, component_id, last_msg);
+    mavlink_test_leaf_ack_queue_external_trajectory_ori(system_id, component_id, last_msg);
     mavlink_test_leaf_external_trajectory_setpoint_enu(system_id, component_id, last_msg);
     mavlink_test_leaf_do_terminate_external_trajectory(system_id, component_id, last_msg);
-    mavlink_test_leaf_ack_terminate_external_trajectory(system_id, component_id, last_msg);
+    mavlink_test_leaf_ack_terminate_external_trajectory_pos(system_id, component_id, last_msg);
+    mavlink_test_leaf_ack_terminate_external_trajectory_ori(system_id, component_id, last_msg);
     mavlink_test_leaf_external_trajectory_offset_enu_pos(system_id, component_id, last_msg);
     mavlink_test_leaf_external_trajectory_offset_enu_ori(system_id, component_id, last_msg);
 }
